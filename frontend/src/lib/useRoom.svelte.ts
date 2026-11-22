@@ -4,7 +4,7 @@ import { onDestroy } from 'svelte';
 import type { Translation } from '#lib/i18n.ts';
 import { transitionOf } from '#lib/room-transition.ts';
 import { chunkLines } from '#lib/export.ts';
-import { forgetSeat, loadSeat, saveSeat, tabStorage } from '#lib/seat.ts';
+import { deviceStorage, forgetSeat, historyKey, loadSeat, saveSeat, tabStorage } from '#lib/seat.ts';
 
 export type Player = { id: string; name: string; vote: string; observer: boolean; ai?: boolean; reason?: string };
 /** What a delivered story cost: numbers only. */
@@ -19,7 +19,7 @@ export type RoomState = {
   state: 'voting' | 'revealed'; round: number;
   results: Results | null; players: Player[]; activity: ActivityEntry[];
   host: string; locked: boolean; timerEnd: number;
-  stories?: Story[]; current?: number; autoReveal?: boolean; references?: Reference[];
+  stories?: Story[]; current?: number; autoReveal?: boolean; references?: Reference[]; cleared?: boolean;
 };
 
 const PING_MS = 25_000;
@@ -48,6 +48,19 @@ export function useRoom(getRoomId: () => string, getT: () => Translation) {
   // Votes sent and not yet answered: only the answer to the LAST one says what
   // the room holds, an earlier answer would put back a vote already replaced.
   let votesInFlight = 0;
+  // True from a welcome to the first state after it: the moment a browser
+  // replays the estimates it kept into a room the server forgot.
+  let arriving = false;
+
+  // Fetched only once there is something to keep or to replay: most rooms
+  // hold no story list, and theirs is not the code to download.
+  function keepHistory(roomId: string, state: RoomState) {
+    const replay = arriving;
+    arriving = false;
+    const storage = deviceStorage();
+    if (!storage || !(state.stories?.length || storage.getItem(historyKey(roomId)))) return;
+    void import('#lib/history.ts').then((m) => m.syncHistory(storage, roomId, state, replay ? send : null), () => {});
+  }
 
   function connect(name: string, observer: boolean) {
     if (!browser) return;
@@ -98,6 +111,7 @@ export function useRoom(getRoomId: () => string, getT: () => Translation) {
         // then closes would otherwise hold every visitor at one try a second.
         reconnectDelay = 1000;
         myId = msg.payload.id;
+        arriving = true;
         myVote = msg.payload.vote ?? '';
         votesInFlight = 0;
         token = msg.payload.token ?? '';
@@ -114,6 +128,7 @@ export function useRoom(getRoomId: () => string, getT: () => Translation) {
       } else if (msg.type === 'state') {
         const prev = roomState;
         roomState = msg.payload;
+        keepHistory(roomId, msg.payload);
         // An observer holds no vote: turning one clears it on the server, and
         // without this the card stayed selected on its own screen.
         const me = msg.payload.players?.find((p: Player) => p.id === myId);

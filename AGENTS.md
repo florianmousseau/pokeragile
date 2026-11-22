@@ -261,3 +261,25 @@ la table des facteurs avec `node scripts/gen-fibonacci-facteurs.mjs`.
 La matrice vit dans le fragment de l adresse (`#m=`), que le navigateur n envoie
 pas au serveur. Un lien est du texte tape : `decodeMatrix` refuse tout ce qui
 n est pas exactement une matrice sous les plafonds, et ne repare rien.
+
+## L historique d une equipe vit dans ses navigateurs, jamais sur le serveur
+
+Une salle vit en memoire : elle s efface 24 h apres la derniere activite et a
+chaque mise en prod. Une story se livre des jours apres le vote. Les stories
+estimees, avec leur estimation et leur mesure, sont donc gardees dans le
+`localStorage` de CHAQUE participant, sous `cleanpoker:history:<adresse de salle>`
+(`src/lib/history.ts`), et le premier navigateur revenu a cette adresse les
+rejoue par la commande `restore` (`backend/internal/room/history.go`).
+
+- **Rien sur le disque du serveur.** La promesse « le contenu des sessions vit
+  en memoire » ne bouge pas ; ne pas ajouter de persistance cote Go.
+- **Le serveur decide de ce qu il reprend** : une story deja dans la liste
+  reste telle quelle, une carte hors du deck est refusee, une mesure invalide
+  tombe seule, et plus rien ne se rejoue une fois la liste videe dans cette
+  salle (`cleared` dans l etat, qui vide aussi la copie des navigateurs).
+- **`history.ts` ne s importe jamais statiquement.** `useRoom` le charge
+  seulement quand la salle porte une liste ou que le navigateur garde deja un
+  historique pour cette adresse : une premiere visite ne le telecharge pas.
+  Mesure du 2026-11-22 : la salle pese 49,84 Ko sur 50 avec le seul branchement.
+- Les mentions legales disent ce stockage dans les cinq langues ; le changer
+  sans les mettre a jour est une promesse fausse.

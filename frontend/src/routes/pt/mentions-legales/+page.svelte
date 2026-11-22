@@ -127,7 +127,7 @@
       não requerem consentimento prévio.
     </p>
     <p>
-      O navegador também guarda, no seu armazenamento local, o nome escrito para entrar numa sala e a última aparência de equipe (nome, cor, site). Estes dados não saem do seu dispositivo; apagar os dados do site remove-os.
+      O navegador também guarda, no seu armazenamento local, o nome escrito para entrar numa sala e a última aparência de equipe (nome, cor, site). Estes dados não saem do seu dispositivo; apagar os dados do site remove-os. Guarda também, por endereço de sala, as histórias que a equipe estimou, com a estimativa e a medida, e devolve-as à sala quando esse endereço é reaberto; esvaziar a lista de histórias remove-as.
     </p>
     <p>
       O Cloudflare pode depositar cookies técnicos de segurança (<code>__cf_bm</code>) estritamente

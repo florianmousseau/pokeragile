@@ -129,7 +129,7 @@
       directrices de la CNIL.
     </p>
     <p>
-      Le navigateur garde aussi, dans son stockage local, le nom saisi pour rejoindre une salle et le dernier habillage d'équipe (nom, couleur, site). Ces données ne quittent pas votre appareil&nbsp;; vider les données du site les efface.
+      Le navigateur garde aussi, dans son stockage local, le nom saisi pour rejoindre une salle et le dernier habillage d'équipe (nom, couleur, site). Ces données ne quittent pas votre appareil&nbsp;; vider les données du site les efface. Il garde aussi, par adresse de salle, les stories que l'équipe a estimées, avec leur estimation et leur mesure, et les renvoie à la salle quand cette adresse est rouverte&nbsp;; vider la liste des stories les efface.
     </p>
     <p>
       Cloudflare peut déposer des cookies techniques de sécurité (<code>__cf_bm</code>) strictement

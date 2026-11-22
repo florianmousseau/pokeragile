@@ -58,8 +58,10 @@ func (r *Room) AddStoryTitles(initiatorID string, titles []string) (StoriesAdded
 		if out.Added == 0 {
 			return
 		}
+		// The first story added goes on the table: the ones before it, when a
+		// history was replayed, are already estimated.
 		if r.currentStory < 0 {
-			r.currentStory = 0
+			r.currentStory = len(r.stories) - out.Added
 		}
 		r.logActivity(r.nameOf(initiatorID), "stories_added")
 	})
@@ -103,6 +105,7 @@ func (r *Room) ClearStories(initiatorID string) {
 		}
 		r.stories = nil
 		r.currentStory = -1
+		r.cleared = true
 		r.logActivity(r.nameOf(initiatorID), "stories_cleared")
 	})
 }

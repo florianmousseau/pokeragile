@@ -99,6 +99,9 @@ type Snapshot struct {
 	// References gives a card of the deck a measured story of the team to
 	// compare with; empty until the room holds enough of them.
 	References []Reference `json:"references,omitempty"`
+	// Cleared says the list was emptied in this room: a browser drops the
+	// stories it kept and that the room no longer holds.
+	Cleared bool `json:"cleared,omitempty"`
 }
 
 // TimerDurations are the only countdowns a room accepts, in seconds.
@@ -121,7 +124,10 @@ type Room struct {
 	nextSeq      int
 	stories      []Story
 	currentStory int
-	autoReveal   bool
+	// cleared is set once someone emptied the list: a history replayed after
+	// that would bring back what the team chose to drop.
+	cleared    bool
+	autoReveal bool
 	// closed is set under mu when the room shuts: no command changes it after.
 	closed bool
 	grace  time.Duration
@@ -241,6 +247,7 @@ func (r *Room) buildSnapshot(masked bool) Snapshot {
 		Current:    r.currentStory,
 		AutoReveal: r.autoReveal,
 		References: references(r.stories, r.cards),
+		Cleared:    r.cleared,
 	}
 }
 

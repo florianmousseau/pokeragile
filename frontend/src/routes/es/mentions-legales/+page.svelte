@@ -127,7 +127,7 @@
       consentimiento previo.
     </p>
     <p>
-      El navegador también guarda, en su almacenamiento local, el nombre escrito para unirse a una sala y la última apariencia de equipo (nombre, color, sitio). Estos datos no salen de su dispositivo; borrar los datos del sitio los elimina.
+      El navegador también guarda, en su almacenamiento local, el nombre escrito para unirse a una sala y la última apariencia de equipo (nombre, color, sitio). Estos datos no salen de su dispositivo; borrar los datos del sitio los elimina. También guarda, por dirección de sala, las historias que el equipo estimó, con su estimación y su medida, y las devuelve a la sala cuando esa dirección se abre de nuevo; vaciar la lista de historias las elimina.
     </p>
     <p>
       Cloudflare puede depositar cookies técnicas de seguridad (<code>__cf_bm</code>) estrictamente
