@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.73] - 2026-11-22
+
+- fix(green): say what the browser keeps instead of denying it (#465)
+
 ## [0.0.72] - 2026-11-22
 
 - feat(room): keep a team's estimates and measures in its browsers and replay them (#462)

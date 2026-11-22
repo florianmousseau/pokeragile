@@ -89,7 +89,7 @@
       <li>Kein Google Analytics oder andere Verhaltens-Tracking-Tools</li>
       <li>Keine Werbung, keine Monetarisierung, kein Freemium</li>
       <li>Keine Drittanbieter-Cookies (nur Cloudflare kann <code>__cf_bm</code> setzen, ein unbedingt erforderliches Sicherheits-Cookie)</li>
-      <li>Keine personenbezogenen Daten in Ihrem Browser (nur Ihre Sprach- und Design-Einstellungen)</li>
+      <li>Nichts in Ihrem Browser gespeichert außer Ihren Einstellungen (Sprache, Design, Team-Design), dem Namen, mit dem Sie einem Raum beitreten, und den Schätzungen Ihres Teams</li>
       <li>Keine Schriften oder Icons von Drittanbieter-CDNs (jsDelivr, cdnjs, unpkg...)</li>
       <li>Kein E-Mail-Marketing, keine Benutzerkonten, keine permanente Datenbank</li>
     </ul>
