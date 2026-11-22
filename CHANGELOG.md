@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.72] - 2026-11-22
+
+- feat(room): keep a team's estimates and measures in its browsers and replay them (#462)
+
 ## [0.0.71] - 2026-11-21
 
 - feat(i18n): redirect the root to the visitor's language instead of a banner (#459)

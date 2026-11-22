@@ -36,3 +36,23 @@ func TestMeasure_DropsAMalformedPayload(t *testing.T) {
 		t.Fatalf("a malformed payload was recorded: %+v", got)
 	}
 }
+
+func TestRestore_ReplaysTheLinesABrowserKept(t *testing.T) {
+	rm := room.New("team42", nil)
+	t.Cleanup(rm.Stop)
+	rm.Join("p1", "Alice", false)
+	payload := `{"title":"CSV export","estimate":"3","actual":{"files":4,"added":120,"removed":30,"tests":0,"minutes":0}}` + "\n" +
+		`not a story` + "\n" +
+		`{"title":"Login","estimate":"5"}`
+	commands["restore"](rm, "p1", payload, room.AnyRound)
+	stories := rm.Snapshot().Stories
+	if len(stories) != 2 {
+		t.Fatalf("got %d stories, want 2: %+v", len(stories), stories)
+	}
+	if got := stories[0].Actual; got == nil || *got != (room.Actual{Files: 4, Added: 120, Removed: 30}) {
+		t.Fatalf("unexpected measure: %+v", got)
+	}
+	if stories[1].Title != "Login" || stories[1].Estimate != "5" {
+		t.Fatalf("unexpected story: %+v", stories[1])
+	}
+}

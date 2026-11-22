@@ -219,4 +219,60 @@ describe('useRoom', () => {
     vi.advanceTimersByTime(120_000);
     expect(FakeSocket.last).toBe(socket);
   });
+
+  // D-364: a room the server forgot is opened again at the same address.
+  describe('the history a browser keeps', () => {
+    const base = { id: 'r1', cards: ['3', '5'], state: 'voting', round: 1, results: null, activity: [], players: [{ id: 'me', name: 'Alice', vote: '', observer: false }] };
+    const stories = [{ title: 'CSV export', estimate: '3', actual: { files: 4, added: 120, removed: 30, tests: 0, minutes: 0 } }];
+
+    function deviceMemory(items = new Map<string, string>()) {
+      vi.stubGlobal('localStorage', {
+        getItem: (k: string) => items.get(k) ?? null,
+        setItem: (k: string, v: string) => void items.set(k, v),
+        removeItem: (k: string) => void items.delete(k),
+      });
+      return items;
+    }
+    // The module arrives through a dynamic import: let it land.
+    const settled = async () => {
+      await import('./history');
+      await vi.advanceTimersByTimeAsync(0);
+    };
+
+    it('keeps the estimated stories of the room it sees', async () => {
+      const items = deviceMemory();
+      await joined();
+      FakeSocket.last.open();
+      FakeSocket.last.receive('welcome', { id: 'me', token: 't', vote: '' });
+      FakeSocket.last.receive('state', { ...base, stories });
+      await settled();
+      expect(JSON.parse(items.get('cleanpoker:history:r1') ?? '[]')).toEqual(stories);
+      expect(FakeSocket.last.sent.filter((m) => m.type === 'restore')).toEqual([]);
+    });
+
+    it('replays them once, on arrival in the room that came back empty', async () => {
+      deviceMemory(new Map([['cleanpoker:history:r1', JSON.stringify(stories)]]));
+      await joined();
+      FakeSocket.last.open();
+      FakeSocket.last.receive('welcome', { id: 'me', token: 't', vote: '' });
+      FakeSocket.last.receive('state', { ...base, stories: [] });
+      FakeSocket.last.receive('state', { ...base, stories: [] });
+      await settled();
+      const restores = FakeSocket.last.sent.filter((m) => m.type === 'restore');
+      expect(restores).toHaveLength(1);
+      expect(JSON.parse(restores[0].payload)).toEqual(stories[0]);
+    });
+
+    it('asks for nothing in a room with no list and no kept history', async () => {
+      const getItem = vi.fn(() => null);
+      vi.stubGlobal('localStorage', { getItem, setItem: () => {}, removeItem: () => {} });
+      await joined();
+      FakeSocket.last.open();
+      FakeSocket.last.receive('welcome', { id: 'me', token: 't', vote: '' });
+      FakeSocket.last.receive('state', base);
+      await settled();
+      expect(getItem).toHaveBeenCalledWith('cleanpoker:history:r1');
+      expect(FakeSocket.last.sent).toEqual([]);
+    });
+  });
 });
