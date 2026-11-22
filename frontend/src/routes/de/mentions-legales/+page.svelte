@@ -128,7 +128,7 @@
       Daten und erfordern keine vorherige Einwilligung.
     </p>
     <p>
-      Ihr Browser speichert außerdem lokal den Namen, mit dem Sie einem Raum beitreten, und das letzte Team-Design (Name, Farbe, Website). Diese Daten verlassen Ihr Gerät nicht; das Löschen der Website-Daten entfernt sie.
+      Ihr Browser speichert außerdem lokal den Namen, mit dem Sie einem Raum beitreten, und das letzte Team-Design (Name, Farbe, Website). Diese Daten verlassen Ihr Gerät nicht; das Löschen der Website-Daten entfernt sie. Er speichert außerdem pro Raumadresse die Storys, die das Team geschätzt hat, mit Schätzung und Messung, und sendet sie an den Raum zurück, wenn diese Adresse erneut geöffnet wird; das Leeren der Story-Liste löscht sie.
     </p>
     <p>
       Cloudflare kann technische Sicherheits-Cookies setzen (<code>__cf_bm</code>), die für das

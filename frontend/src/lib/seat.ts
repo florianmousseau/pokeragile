@@ -20,6 +20,9 @@ const NAME_KEY = 'cleanpoker:name';
 // that names PokerAgile. Kept only once they turn it off or back on.
 const CREDIT_KEY = 'cleanpoker:credit';
 
+/** Where a browser keeps the estimates and measures of a room address. */
+export const historyKey = (roomId: string) => `cleanpoker:history:${roomId}`;
+
 function isSeat(value: unknown): value is Seat {
   if (typeof value !== 'object' || value === null) return false;
   const seat = value as Record<string, unknown>;

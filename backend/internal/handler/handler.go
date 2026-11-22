@@ -359,6 +359,7 @@ var commands = map[string]command{
 		}
 	},
 	"measure": measure,
+	"restore": restore,
 	"selectStory": func(rm *room.Room, id, p string, _ int) {
 		if index, err := strconv.Atoi(p); err == nil {
 			rm.SelectStory(id, index)
@@ -382,6 +383,19 @@ func measure(rm *room.Room, id, p string, _ int) {
 		n[i] = v
 	}
 	_ = rm.ReportActual(id, n[0], room.Actual{Files: n[1], Added: n[2], Removed: n[3], Tests: n[4], Minutes: n[5]})
+}
+
+// restore reads one kept story per line, each a JSON object shaped like a story
+// of the state, and replays them. A line that is not one is dropped alone.
+func restore(rm *room.Room, id, p string, _ int) {
+	var kept []room.Story
+	for line := range strings.SplitSeq(p, "\n") {
+		var story room.Story
+		if json.Unmarshal([]byte(line), &story) == nil {
+			kept = append(kept, story)
+		}
+	}
+	rm.Restore(id, kept)
 }
 
 func cors(allowed map[string]bool, next http.Handler) http.Handler {
