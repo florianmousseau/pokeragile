@@ -89,7 +89,7 @@
       <li>Sem Google Analytics nem qualquer ferramenta de rastreamento comportamental</li>
       <li>Sem publicidade, sem monetização, sem freemium</li>
       <li>Sem cookies de terceiros (apenas o Cloudflare pode depositar <code>__cf_bm</code>, um cookie de segurança estritamente necessário)</li>
-      <li>Sem dados pessoais guardados no seu navegador (apenas as suas preferências de idioma e tema)</li>
+      <li>Nada guardado no seu navegador além das suas definições (idioma, tema, aparência de equipe), do nome escrito para entrar numa sala e das estimativas da sua equipe</li>
       <li>Sem fontes, ícones ou scripts carregados de CDNs de terceiros (jsDelivr, cdnjs, unpkg...)</li>
       <li>Sem email marketing, sem contas de utilizador, sem base de dados permanente</li>
     </ul>

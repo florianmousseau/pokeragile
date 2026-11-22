@@ -89,7 +89,7 @@
       <li>No Google Analytics or any behavioral tracking tool</li>
       <li>No advertising, no monetisation, no freemium</li>
       <li>No third-party cookies (only Cloudflare may set <code>__cf_bm</code>, a strictly necessary security cookie)</li>
-      <li>No personal data stored in your browser (only your language and theme preferences)</li>
+      <li>Nothing kept in your browser beyond your settings (language, theme, team look), the name you join with and your team's estimates</li>
       <li>No fonts or icons loaded from third-party CDNs (jsDelivr, cdnjs, unpkg...)</li>
       <li>No email marketing, no user accounts, no permanent database</li>
     </ul>
