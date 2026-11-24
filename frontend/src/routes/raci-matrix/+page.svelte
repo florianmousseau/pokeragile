@@ -145,14 +145,6 @@
 
     <RaciGenerator bind:this={generator} lang="en" initial={SITE} />
 
-    <h2>Exporting and sharing the matrix</h2>
-    <ul>
-      <li><strong>Markdown</strong>: "Copy as Markdown" puts a table on the clipboard. It pastes into a GitHub or GitLab issue, a README file or a wiki.</li>
-      <li><strong>CSV</strong>: the file is UTF-8 with a byte order mark, comma-separated. An English-language Excel opens it in columns. LibreOffice Calc and Google Sheets read it too.</li>
-      <li><strong>Print</strong>: "Print" outputs the title and the grid, without the rest of the page. The print dialog of the browser also saves it as a PDF.</li>
-      <li><strong>Link</strong>: the address of the page carries the matrix, after the # sign. A browser does not send that part of the address to the server. "Copy the link" gives an address that reopens the same matrix.</li>
-    </ul>
-
     <h2>The rules of a RACI matrix</h2>
     <ol>
       <li><strong>Every task has one A, and only one.</strong> That person decides and signs off the result.</li>

@@ -147,14 +147,6 @@
 
     <RaciGenerator bind:this={generateur} lang="fr" initial={SITE} />
 
-    <h2>Exporter et partager la matrice</h2>
-    <ul>
-      <li><strong>Markdown</strong>&nbsp;: «&nbsp;Copier en Markdown&nbsp;» place un tableau dans le presse-papiers. Il se colle dans une issue GitHub ou GitLab, un fichier README ou un wiki.</li>
-      <li><strong>CSV</strong>&nbsp;: le fichier est en UTF-8 avec BOM, séparé par des points-virgules. Un Excel réglé en français l'ouvre en colonnes, accents compris. LibreOffice Calc et Google Sheets le lisent aussi.</li>
-      <li><strong>Impression</strong>&nbsp;: «&nbsp;Imprimer&nbsp;» sort le titre et la grille, sans le reste de la page. La fenêtre d'impression du navigateur l'enregistre aussi en PDF.</li>
-      <li><strong>Lien</strong>&nbsp;: l'adresse de la page contient la matrice, après le signe #. Le navigateur n'envoie pas cette partie de l'adresse au serveur. «&nbsp;Copier le lien&nbsp;» donne une adresse qui rouvre la même matrice.</li>
-    </ul>
-
     <h2>Les règles d'une matrice RACI</h2>
     <ol>
       <li><strong>Chaque tâche a un A, et un seul.</strong> C'est la personne qui tranche et qui signe le résultat.</li>
