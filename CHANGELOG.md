@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.74] - 2026-11-24
+
+- fix(raci): drop the export notes under the generator (#468)
+
 ## [0.0.73] - 2026-11-22
 
 - fix(green): say what the browser keeps instead of denying it (#465)
