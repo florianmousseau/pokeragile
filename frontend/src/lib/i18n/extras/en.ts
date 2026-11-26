@@ -65,6 +65,7 @@ export const EN: Extras = {
     measureRemoved: 'Lines removed',
     measureBtn: 'Save',
     references: 'Team references',
+    similar: 'Delivered stories like this one',
   },
   host: {
     lock: 'Lock room',
@@ -75,6 +76,7 @@ export const EN: Extras = {
   },
   controls: {
     autoReveal: 'Reveal as soon as everyone has voted',
+    hideSimilar: 'Hide the delivered stories like the one on the table from those who have not voted yet',
   },
   results: {
     creditOption: 'Add the PokerAgile line to copied results',

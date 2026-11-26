@@ -350,6 +350,7 @@ var commands = map[string]command{
 	"toggleObserver": func(rm *room.Room, id, p string, _ int) { rm.ToggleObserver(id, p) },
 	"lock":           func(rm *room.Room, id, p string, _ int) { rm.SetLocked(id, p == "on") },
 	"autoReveal":     func(rm *room.Room, id, p string, _ int) { rm.SetAutoReveal(id, p == "on") },
+	"hideSimilar":    func(rm *room.Room, id, p string, _ int) { rm.SetHideSimilar(id, p == "on") },
 	"addStories":     func(rm *room.Room, id, p string, _ int) { rm.AddStories(id, p) },
 	"clearStories":   func(rm *room.Room, id, _ string, _ int) { rm.ClearStories(id) },
 	"estimate":       func(rm *room.Room, id, p string, _ int) { rm.Estimate(id, p) },
