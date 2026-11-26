@@ -157,6 +157,8 @@
   // Only a browser with a built-in model can run the analysis.
   const aiWanted = $derived(onTable !== undefined && 'LanguageModel' in globalThis);
   const LocalAi = lazily(() => aiWanted, () => import('#lib/LocalAi.svelte'));
+  // Held up across a meeting room: fetched with the first vote, not before.
+  const ShowCard = lazily(() => !!room.myVote, () => import('#lib/ShowCard.svelte'));
   // Their words come with them, in the one language the room speaks.
   $effect(() => {
     if (optionsOpen || aiWanted || stories.length > 0) words.wantExtras();
@@ -321,6 +323,9 @@
               </li>
             {/each}
           </ul>
+          {#if ShowCard.current}
+            <ShowCard.current vote={room.myVote} {revealed} />
+          {/if}
         </section>
       {/if}
 

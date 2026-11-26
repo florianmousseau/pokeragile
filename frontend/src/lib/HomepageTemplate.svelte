@@ -12,6 +12,8 @@
   import { cardsQuery, fitsServer, parseCards } from '#lib/cards.ts';
   import Footer from '#lib/Footer.svelte';
   import { lecteurDeSite } from '#lib/lecture-site.ts';
+  import { lazily } from '#lib/lazy.svelte.ts';
+  import { POCKET_HASH, POCKET_WORDS } from '#lib/pocket-deck.ts';
 
   interface Props {
     locale: 'fr' | 'en' | 'es' | 'de' | 'pt';
@@ -147,8 +149,25 @@
   // `/?` with no room: measured on 2026-10-22, the first click lost on a
   // mid-range phone even after the load event. The button waits instead.
   let ready = $state(false);
+  // A deck in the hand for a team in one room: nothing is created or sent.
+  let pocketOpen = $state(false);
+  const ShowCard = lazily(() => pocketOpen, () => import('#lib/ShowCard.svelte'));
+  function closePocket() {
+    pocketOpen = false;
+    if (window.location.hash === POCKET_HASH) replaceState(window.location.pathname + window.location.search, {});
+  }
+  function openPocketFromAddress() {
+    if (window.location.hash === POCKET_HASH) pocketOpen = true;
+  }
+  // The installed app's shortcut lands here while the home is already open.
+  // A plain listener: <svelte:window> costs every page 0.12 kB of runtime.
+  onMount(() => {
+    window.addEventListener('hashchange', openPocketFromAddress);
+    return () => window.removeEventListener('hashchange', openPocketFromAddress);
+  });
   onMount(() => {
     ready = true;
+    openPocketFromAddress();
     lang.visit(locale);
     const kept = chargerHabillage(deviceStorage());
     if (kept) {
@@ -403,7 +422,13 @@
       <button type="submit" class="btn btn-primary btn-lg" disabled={!ready || creating || !isValid} data-testid="create-btn">
         {creating ? creatingLabel : createBtnLabel}
       </button>
+      <button type="button" class="reset-btn" disabled={!ready || !isValid} onclick={() => (pocketOpen = true)} data-testid="pocket-btn">
+        {POCKET_WORDS[locale]}
+      </button>
     </form>
+    {#if pocketOpen && ShowCard.current}
+      <ShowCard.current {locale} deck={cards} name={POCKET_WORDS[locale]} onclose={closePocket} />
+    {/if}
   </main>
 
   <Footer
