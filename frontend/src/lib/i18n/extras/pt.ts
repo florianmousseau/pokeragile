@@ -65,6 +65,7 @@ export const PT: Extras = {
     measureRemoved: 'Linhas removidas',
     measureBtn: 'Guardar',
     references: 'Referências da equipa',
+    similar: 'Histórias entregues parecidas',
   },
   host: {
     lock: 'Bloquear sala',
@@ -75,6 +76,7 @@ export const PT: Extras = {
   },
   controls: {
     autoReveal: 'Revelar assim que todos votarem',
+    hideSimilar: 'Ocultar as histórias entregues parecidas a quem ainda não votou',
   },
   results: {
     creditOption: 'Adicionar a linha do PokerAgile aos resultados copiados',

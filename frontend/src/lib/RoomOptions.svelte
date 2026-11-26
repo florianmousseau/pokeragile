@@ -57,6 +57,11 @@
         onchange={(e) => room.setAutoReveal(e.currentTarget.checked)} data-testid="auto-reveal" />
       <span>{X.controls.autoReveal}</span>
     </label>
+    <label class="option-check">
+      <input type="checkbox" checked={roomState.hideSimilar ?? false}
+        onchange={(e) => room.send('hideSimilar', e.currentTarget.checked ? 'on' : 'off')} data-testid="hide-similar" />
+      <span>{X.controls.hideSimilar}</span>
+    </label>
   {/if}
   {#if isHost}
     <button class="btn btn-secondary btn-sm lock-btn" onclick={() => room.setLocked(!roomState.locked)}

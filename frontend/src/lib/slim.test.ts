@@ -80,7 +80,7 @@ describe('the home page', () => {
 describe('what the room fetches only when it is used', () => {
   const page = readFileSync(ROOM, 'utf8');
 
-  it.each(['RoomOptions', 'StoriesPanel', 'LocalAi'])('%s is never a static import of the room', (name) => {
+  it.each(['RoomOptions', 'StoriesPanel', 'UnderStory'])('%s is never a static import of the room', (name) => {
     expect(page).toContain(`import('#lib/${name}.svelte')`);
     expect(page).not.toMatch(new RegExp(`^\\s*import ${name} from`, 'm'));
   });
