@@ -528,3 +528,39 @@ func TestInstructions_TellTheAssistantToCalibrate(t *testing.T) {
 		}
 	}
 }
+
+func TestGetRoom_NamesTheDeliveredStoriesThatLookLikeTheOneOnTheTable(t *testing.T) {
+	rm, cs, _ := seatIn42(t)
+	rm.AddStories("p1", "Export the invoices as CSV\nReset password by email\nExport the orders as PDF\nDark mode for the dashboard\nRate limit on the public API\nExport the invoices as PDF\nMigrate Postgres to version 17")
+	keep(t, rm, "5", "3", "8", "5", "13")
+	for i := range 5 {
+		if err := rm.ReportActual("p1", i, room.Actual{Files: 1, Added: 10 * (i + 1)}); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	rm.SelectStory("p1", 5)
+	var out stateOut
+	call(t, cs, "get_room", map[string]any{"room": "team42"}, &out)
+	if len(out.Similar) != 2 {
+		t.Fatalf("similar to %q = %+v, want the two exports", out.Story, out.Similar)
+	}
+	for _, s := range out.Similar {
+		if !strings.HasPrefix(s.Title, "Export the ") || s.Estimate == "" || s.LooksLike == "" {
+			t.Errorf("similar story %+v: want an export with its estimate and the card it was delivered like", s)
+		}
+	}
+
+	rm.SelectStory("p1", 6)
+	out = stateOut{}
+	call(t, cs, "get_room", map[string]any{"room": "team42"}, &out)
+	if out.Story != "Migrate Postgres to version 17" || out.Similar != nil {
+		t.Fatalf("a story with no word in common got %+v", out.Similar)
+	}
+}
+
+func TestInstructions_TellTheAssistantToCiteTheSimilarStories(t *testing.T) {
+	if !strings.Contains(instructions, `"similar"`) || !strings.Contains(instructions, "cite them in the\nreason of your vote") {
+		t.Fatal("the instructions no longer tell the assistant to cite the similar stories in its reason")
+	}
+}

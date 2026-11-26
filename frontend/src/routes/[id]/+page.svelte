@@ -154,14 +154,13 @@
   // Fetched when first needed, never before: the room opens on the cards.
   const RoomOptions = lazily(() => optionsOpen, () => import('#lib/RoomOptions.svelte'));
   const StoriesPanel = lazily(() => stories.length > 0, () => import('#lib/StoriesPanel.svelte'));
-  // Only a browser with a built-in model can run the analysis.
-  const aiWanted = $derived(onTable !== undefined && 'LanguageModel' in globalThis);
-  const LocalAi = lazily(() => aiWanted, () => import('#lib/LocalAi.svelte'));
+  // The delivered stories that look like the one on the table, and the local analysis.
+  const UnderStory = lazily(() => !!onTable, () => import('#lib/UnderStory.svelte'));
   // Held up across a meeting room: fetched with the first vote, not before.
   const ShowCard = lazily(() => !!room.myVote, () => import('#lib/ShowCard.svelte'));
   // Their words come with them, in the one language the room speaks.
   $effect(() => {
-    if (optionsOpen || aiWanted || stories.length > 0) words.wantExtras();
+    if (optionsOpen || stories.length > 0) words.wantExtras();
   });
 
   const homeHref = $derived(
@@ -284,8 +283,8 @@
       {#if onTable}
         <div>
           <p class="on-table" data-testid="story-on-table">{T.stories.onTable} <strong>{onTable.title}</strong></p>
-          {#if LocalAi.current && X}
-            <LocalAi.current story={onTable.title} lang={lang.current} {X} />
+          {#if UnderStory.current && X}
+            <UnderStory.current {stories} current={currentIndex} hidden={room.roomState?.hideSimilar && !revealed && !room.myVote} lang={lang.current} {T} {X} />
           {/if}
         </div>
       {/if}

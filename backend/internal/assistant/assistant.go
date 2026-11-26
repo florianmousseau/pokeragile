@@ -88,8 +88,9 @@ type seatIn struct {
 }
 
 type stateOut struct {
-	Story string        `json:"story" jsonschema:"the title of the story on the table, empty when the room has no list"`
-	State room.Snapshot `json:"state"`
+	Story   string         `json:"story" jsonschema:"the title of the story on the table, empty when the room has no list"`
+	Similar []room.Similar `json:"similar,omitempty" jsonschema:"up to three delivered stories of the team whose titles share words with the story on the table, each with the estimate kept and the card it was delivered like; absent when none is close, and until the reveal when the room hides them from who has not voted"`
+	State   room.Snapshot  `json:"state"`
 }
 
 func stateOf(rm *room.Room) stateOut {
@@ -97,6 +98,7 @@ func stateOf(rm *room.Room) stateOut {
 	out := stateOut{State: snap}
 	if snap.Current >= 0 && snap.Current < len(snap.Stories) {
 		out.Story = snap.Stories[snap.Current].Title
+		out.Similar = snap.SimilarShown()
 	}
 	return out
 }
@@ -293,7 +295,10 @@ one on the table: estimate it. Otherwise your user gives you the story.
 A point has no value of its own: it is the size of a story next to the stories
 this team already estimated. Before you vote, read get_estimates and place the
 story among the kept estimates; "references" in get_room, when present, names
-one delivered story of the team per card. With no kept estimate to compare
+one delivered story of the team per card, and "similar", when present, names
+the delivered stories whose titles are close to the one on the table, with
+the estimate kept and the card each was delivered like: cite them in the
+reason of your vote. With no kept estimate to compare
 with, vote "?" when the deck has it, or say in your reason what you took as
 one point. Vote one card of the room deck ("cards") with vote, with a one or
 two sentence reason: votes and reasons stay hidden until a person reveals
@@ -314,7 +319,7 @@ func NewServer(rooms Rooms, version string) *mcp.Server {
 		&mcp.ServerOptions{Instructions: instructions})
 	s := service{rooms: rooms}
 	mcp.AddTool(srv, &mcp.Tool{Name: "join_room", Description: "Join a planning poker room as a participant marked as an AI. Returns the seat token and the room state."}, s.join)
-	mcp.AddTool(srv, &mcp.Tool{Name: "get_room", Description: "Read a room: the deck (cards), the round, the title of the story on the table (story), the story list, who voted, and the results once a person has revealed the votes.", Annotations: &mcp.ToolAnnotations{ReadOnlyHint: true}}, s.get)
+	mcp.AddTool(srv, &mcp.Tool{Name: "get_room", Description: "Read a room: the deck (cards), the round, the title of the story on the table (story), the delivered stories that look like it (similar), the story list, who voted, and the results once a person has revealed the votes.", Annotations: &mcp.ToolAnnotations{ReadOnlyHint: true}}, s.get)
 	mcp.AddTool(srv, &mcp.Tool{Name: "add_stories", Description: "Append story titles to the room's list, for instance the sprint's stories read from your user's tracker. Returns how many were added, how many were refused and why, and the room state; refused when the host locked the room."}, s.add)
 	mcp.AddTool(srv, &mcp.Tool{Name: "get_estimates", Description: "Read the story list with the estimate the team kept for each, as data and as a Markdown table. Call it before you vote, to place the story among the estimates already kept, and when the session is over, to write the estimates back to the tracker.", Annotations: &mcp.ToolAnnotations{ReadOnlyHint: true}}, s.estimates)
 	mcp.AddTool(srv, &mcp.Tool{Name: "vote", Description: "Vote one card of the room deck with a short reason, both hidden from the team until the reveal. An empty card withdraws the vote."}, s.vote)
