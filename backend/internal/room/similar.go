@@ -56,12 +56,7 @@ func SimilarStories(stories []Story, current int) []Similar {
 	if current < 0 || current >= len(stories) {
 		return nil
 	}
-	var past []int
-	for i, s := range stories {
-		if i != current && measured(s) {
-			past = append(past, i)
-		}
-	}
+	past := measuredBut(stories, current)
 	if len(past) < SimilarFrom {
 		return nil
 	}
@@ -83,22 +78,36 @@ func SimilarStories(stories []Story, current int) []Similar {
 			near = append(near, scored{i, score})
 		}
 	}
-	// Among equals, the most recent story first.
-	slices.SortStableFunc(near, func(a, b scored) int {
-		if a.score != b.score {
-			if a.score > b.score {
-				return -1
-			}
-			return 1
-		}
-		return b.index - a.index
-	})
+	slices.SortStableFunc(near, closestThenLatest)
 	var out []Similar
 	for _, c := range near[:min(len(near), MaxSimilar)] {
 		s := stories[c.index]
 		out = append(out, Similar{Title: s.Title, Estimate: s.Estimate, LooksLike: s.LooksLike})
 	}
 	return out
+}
+
+// measuredBut lists the positions of the measured stories, leaving out skip.
+func measuredBut(stories []Story, skip int) []int {
+	var out []int
+	for i, s := range stories {
+		if i != skip && measured(s) {
+			out = append(out, i)
+		}
+	}
+	return out
+}
+
+// closestThenLatest sorts the closest title first and, among equals, the most
+// recent story first.
+func closestThenLatest(a, b scored) int {
+	switch {
+	case a.score > b.score:
+		return -1
+	case a.score < b.score:
+		return 1
+	}
+	return b.index - a.index
 }
 
 // SimilarShown is SimilarStories for a reader the room cannot tell from one who
