@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.76] - 2026-11-26
+
+- feat(room): show the delivered stories that look like the one on the table (#476)
+
 ## [0.0.75] - 2026-11-26
 
 - feat(room): show the chosen card full screen, in a room or from a pocket deck (#473)
