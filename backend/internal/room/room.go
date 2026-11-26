@@ -99,6 +99,9 @@ type Snapshot struct {
 	// References gives a card of the deck a measured story of the team to
 	// compare with; empty until the room holds enough of them.
 	References []Reference `json:"references,omitempty"`
+	// HideSimilar keeps the delivered stories that look like the one on the
+	// table from who has not voted yet: they anchor a vote.
+	HideSimilar bool `json:"hideSimilar,omitempty"`
 	// Cleared says the list was emptied in this room: a browser drops the
 	// stories it kept and that the room no longer holds.
 	Cleared bool `json:"cleared,omitempty"`
@@ -128,6 +131,9 @@ type Room struct {
 	// that would bring back what the team chose to drop.
 	cleared    bool
 	autoReveal bool
+	// hideSimilar keeps the delivered stories that look like the one on the
+	// table from who has not voted yet.
+	hideSimilar bool
 	// closed is set under mu when the room shuts: no command changes it after.
 	closed bool
 	grace  time.Duration
@@ -243,11 +249,12 @@ func (r *Room) buildSnapshot(masked bool) Snapshot {
 		Locked:   r.locked,
 		TimerEnd: unixMilliOrZero(r.timerEnd),
 
-		Stories:    measuredStories(r.stories, r.cards),
-		Current:    r.currentStory,
-		AutoReveal: r.autoReveal,
-		References: references(r.stories, r.cards),
-		Cleared:    r.cleared,
+		Stories:     measuredStories(r.stories, r.cards),
+		Current:     r.currentStory,
+		AutoReveal:  r.autoReveal,
+		References:  references(r.stories, r.cards),
+		HideSimilar: r.hideSimilar,
+		Cleared:     r.cleared,
 	}
 }
 

@@ -150,6 +150,16 @@ func (r *Room) SetAutoReveal(initiatorID string, on bool) {
 	})
 }
 
+// SetHideSimilar keeps, or no longer keeps, the delivered stories that look
+// like the one on the table from who has not voted yet.
+func (r *Room) SetHideSimilar(initiatorID string, on bool) {
+	r.mutate(func() {
+		if r.allowed(initiatorID) {
+			r.hideSimilar = on
+		}
+	})
+}
+
 func cut(s string, n int) string {
 	if utf8.RuneCountInString(s) <= n {
 		return s

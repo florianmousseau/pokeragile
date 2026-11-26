@@ -19,7 +19,7 @@ export type RoomState = {
   state: 'voting' | 'revealed'; round: number;
   results: Results | null; players: Player[]; activity: ActivityEntry[];
   host: string; locked: boolean; timerEnd: number;
-  stories?: Story[]; current?: number; autoReveal?: boolean; references?: Reference[]; cleared?: boolean;
+  stories?: Story[]; current?: number; autoReveal?: boolean; references?: Reference[]; cleared?: boolean; hideSimilar?: boolean;
 };
 
 const PING_MS = 25_000;

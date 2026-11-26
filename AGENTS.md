@@ -283,3 +283,29 @@ rejoue par la commande `restore` (`backend/internal/room/history.go`).
   Mesure du 2026-11-22 : la salle pese 49,84 Ko sur 50 avec le seul branchement.
 - Les mentions legales disent ce stockage dans les cinq langues ; le changer
   sans les mettre a jour est une promesse fausse.
+
+## La carte plein ecran se charge au premier vote, en un seul fichier
+
+`src/lib/ShowCard.svelte` montre la carte choisie en grand, pour une equipe en
+presentiel : dos tant que la salle n a pas revele, face ensuite, un toucher la
+retourne a la main. Elle sert aussi sans salle, depuis l accueil (`#cards`, le
+raccourci du manifeste), ou rien n est cree ni envoye.
+
+Mesure avec `npm run size` le 2026-11-26, base 44,33 / 44,59 / 49,85 Ko,
+arrivee 44,86 / 45,13 / 49,96 Ko. Trois choix tiennent la salle sous 50 Ko :
+
+- **ses mots vivent dans `src/lib/show-card.ts`**, pas dans les dictionnaires de
+  la salle, et le bouton est rendu par le composant lui-meme : la salle ne porte
+  que l import a la demande ;
+- **l accueil ne partage aucun module avec elle** : il lit `src/lib/pocket-deck.ts`
+  (le nom du jeu de poche et son fragment). Un module commun devient un fichier
+  de plus dans la liste que la salle embarque pour cet import ;
+- **pas de `<svelte:window>`** sur l accueil : il coute 0,12 Ko de runtime a
+  toutes les pages, salle comprise (50,11 Ko mesures). Un `addEventListener` nu.
+
+Un `<dialog>` ne peut pas passer en plein ecran lui-meme (la norme le refuse) :
+c est son contenu, `.stage`, qui le demande. L ecran reste allume par
+`keepScreenOn`, qui redemande le verrou a chaque retour de l onglet.
+
+L appli s installe par le seul manifeste. **Aucun service worker** : un cache
+hors ligne servirait une vieille salle, et `show-card.test.ts` le refuse.

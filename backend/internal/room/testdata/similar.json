@@ -1,0 +1,38 @@
+{
+  "comment": "Read by similar_test.go and by frontend/src/lib/similar.test.ts: the room and the browser name the same stories.",
+  "past": [
+    { "title": "Export the invoices as CSV", "estimate": "5", "looksLike": "8" },
+    { "title": "Reset password by email", "estimate": "3", "looksLike": "3" },
+    { "title": "Export the orders as PDF", "estimate": "8", "looksLike": "8" },
+    { "title": "Dark mode for the dashboard", "estimate": "5", "looksLike": "3" },
+    { "title": "Rate limit on the public API", "estimate": "13", "looksLike": "8" },
+    { "title": "Onboarding checklist", "estimate": "2", "looksLike": "3" }
+  ],
+  "cases": [
+    {
+      "name": "two delivered stories share the words of the one on the table, the most recent first among equals",
+      "title": "Export the invoices as PDF",
+      "similar": ["Export the orders as PDF", "Export the invoices as CSV"]
+    },
+    {
+      "name": "no word in common names nothing",
+      "title": "Migrate Postgres to version 17",
+      "similar": []
+    },
+    {
+      "name": "a word held by a single title is enough when it weighs",
+      "title": "Password reset link expires",
+      "similar": ["Reset password by email"]
+    },
+    {
+      "name": "words under three letters and the case do not count",
+      "title": "API: RATE LIMIT ON IP",
+      "similar": ["Rate limit on the public API"]
+    },
+    {
+      "name": "a word every other title also holds is not enough",
+      "title": "The mobile app in the store",
+      "similar": []
+    }
+  ]
+}

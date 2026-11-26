@@ -65,6 +65,7 @@ export const DE: Extras = {
     measureRemoved: 'Entfernte Zeilen',
     measureBtn: 'Speichern',
     references: 'Referenzen des Teams',
+    similar: 'Ähnliche gelieferte Storys',
   },
   host: {
     lock: 'Raum sperren',
@@ -75,6 +76,7 @@ export const DE: Extras = {
   },
   controls: {
     autoReveal: 'Aufdecken, sobald alle abgestimmt haben',
+    hideSimilar: 'Ähnliche gelieferte Storys vor allen verbergen, die noch nicht abgestimmt haben',
   },
   results: {
     creditOption: 'PokerAgile-Zeile an kopierte Ergebnisse anhängen',

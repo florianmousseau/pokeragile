@@ -28,9 +28,9 @@ export interface Extras {
   qr: { show: string; hide: string; alt: string; failed: string };
   ia: { button: string; again: string; running: string; downloading: (n: number) => string; failed: string; private: string; invite: string; inviteHelp: string; prompt: (room: string, mcp: string) => string };
   activity: { title: string; none: string; colTime: string; colAuthor: string; colAction: string; joined: string; joined_observer: string; left: string; voted: string; unvoted: string; revealed: string; new_round: string; stories_added: string; stories_cleared: string; story_selected: (t: string) => string; estimated: (t: string) => string; measured: (t: string) => string; locked: string; unlocked: string; timer_started: string; timer_stopped: string; kicked: (t: string) => string; to_observer: (t: string) => string; to_participant: (t: string) => string };
-  stories: { title: string; none: string; addLabel: string; addPlaceholder: string; addBtn: string; clear: string; clearConfirm: string; vote: (t: string) => string; copyMd: string; downloadCsv: string; colLines: string; colLooksLike: string; measureTitle: string; measureStory: string; measureFiles: string; measureAdded: string; measureRemoved: string; measureBtn: string; references: string };
+  stories: { title: string; none: string; addLabel: string; addPlaceholder: string; addBtn: string; clear: string; clearConfirm: string; vote: (t: string) => string; copyMd: string; downloadCsv: string; colLines: string; colLooksLike: string; measureTitle: string; measureStory: string; measureFiles: string; measureAdded: string; measureRemoved: string; measureBtn: string; references: string; similar: string };
   host: { lock: string; unlock: string; timer: string; timerStop: string; seconds: (n: number) => string };
-  controls: { autoReveal: string };
+  controls: { autoReveal: string; hideSimilar: string };
   results: { creditOption: string };
 }
 
