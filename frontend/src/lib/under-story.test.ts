@@ -19,11 +19,15 @@ function under(title: string): string {
   return render(UnderStory, { props: { stories, current: stories.length - 1, lang: 'en', T, X } }).body;
 }
 
+/** The text between the tags, read tag by tag: no markup is filtered by pattern. */
+function textOf(html: string): string {
+  return html.split('<').map((part) => part.slice(part.indexOf('>') + 1)).join('');
+}
+
 /** The cells of each body row, as text. */
 function rows(html: string): string[][] {
-  const body = html.split('<tbody>')[1] ?? '';
-  return [...body.matchAll(/<tr>(.*?)<\/tr>/gs)].map(([, row]) =>
-    [...row.matchAll(/<td[^>]*>(.*?)<\/td>/gs)].map(([, cell]) => cell.replace(/<!--.*?-->/g, '')));
+  const body = html.split('<tbody>')[1]?.split('</tbody>')[0] ?? '';
+  return body.split('<tr').slice(1).map((row) => row.split('<td').slice(1).map((cell) => textOf(`<td${cell}`)));
 }
 
 describe('under the story on the table', () => {
@@ -42,7 +46,7 @@ describe('under the story on the table', () => {
 
   it('shows no score and no sentence about the computation', () => {
     const html = under('Export the invoices as PDF');
-    expect(html.replace(/<style.*?<\/style>/gs, '')).not.toMatch(/\d[.,]\d|%/);
+    expect(textOf(html)).not.toMatch(/\d[.,]\d|%/);
     expect(html).not.toContain('<p');
   });
 });
