@@ -5,7 +5,10 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	plugins: [
 		sveltekit({
-			adapter: adapter()
+			adapter: adapter(),
+			// The route manifest stays on the server: it cost every first visit
+			// about 37 bytes per route (src/lib/routage-serveur.test.ts).
+			router: { resolution: 'server' }
 		})
 	],
 	// The commit /health serves and judges against main. The deploy workflow
