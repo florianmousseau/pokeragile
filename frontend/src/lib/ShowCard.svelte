@@ -104,7 +104,7 @@
   }
   .stage {
     width: 100%; height: 100%; box-sizing: border-box; background: var(--color-bg);
-    display: flex; flex-direction: column; gap: 12px; padding: 12px;
+    display: flex; flex-direction: column; gap: 12px; padding: 12px 12px 15dvh;
   }
   .big {
     flex: 1; min-height: 0; width: 100%; padding: 0; overflow: hidden;
