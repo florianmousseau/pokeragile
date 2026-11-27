@@ -1,12 +1,12 @@
 <svelte:head>
   <title>Points de complexité ou jours-homme&nbsp;: pourquoi estimer en points | PokerAgile</title>
-  <meta name="description" content="Pourquoi estimer en points de complexité plutôt qu'en jours-homme au poker planning&nbsp;: un exemple chiffré, les avantages, les défauts et l'erreur à ne pas faire." />
+  <meta name="description" content="Pourquoi estimer en points de complexité au poker planning&nbsp;: un exemple chiffré, les avantages et les défauts face aux jours-homme, l'erreur 1 point = 1 jour." />
   <link rel="canonical" href="https://pokeragile.com/fr/points-de-complexite" />
   <link rel="alternate" hreflang="fr" href="https://pokeragile.com/fr/points-de-complexite" />
   {@html `<script type="application/ld+json">${JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: 'Points de complexité ou jours-homme : pourquoi estimer en points',
+    headline: 'Points de complexité ou jours-homme : pourquoi estimer en points au poker planning',
     url: 'https://pokeragile.com/fr/points-de-complexite',
     inLanguage: 'fr',
     datePublished: '2026-11-27',
@@ -21,17 +21,17 @@
       {
         '@type': 'Question',
         name: 'Un point de complexité vaut combien de jours ?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Aucun nombre fixe. Le lien entre points et temps se mesure : une équipe qui termine 24 points par sprint de deux semaines livrera 120 points en 5 sprints, soit 10 semaines.' },
+        acceptedAnswer: { '@type': 'Answer', text: 'Aucun nombre fixe. Le rapport entre points et temps se mesure sur chaque équipe. Celle qui termine 21 à 26 points par sprint de 2 semaines livre 120 points en 5 à 6 sprints, soit 10 à 12 semaines.' },
       },
       {
         '@type': 'Question',
         name: 'Points de complexité et story points, est-ce la même chose ?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Oui. Points de complexité est le nom le plus courant en France, story points le nom d\'origine. Les deux désignent la taille relative d\'une user story.' },
+        acceptedAnswer: { '@type': 'Answer', text: 'Oui. En France, on dit surtout points de complexité, et story points est le nom d\'origine. Les deux désignent la taille relative d\'une user story, et la page sur les story points explique comment calibrer l\'échelle.' },
       },
       {
         '@type': 'Question',
         name: 'Quand faut-il estimer en jours-homme ?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Pour un devis au forfait, une tâche isolée faite par une personne connue, ou une équipe qui ne travaille pas en sprints. Pour prévoir le travail d\'une équipe stable, les points et la vélocité donnent une date plus juste.' },
+        acceptedAnswer: { '@type': 'Answer', text: 'Pour un devis au forfait, une tâche isolée confiée à une personne connue, ou une équipe qui ne travaille pas en sprints.' },
       },
     ],
   })}<\/script>`}
@@ -44,58 +44,63 @@
     <h1>Points de complexité ou jours-homme&nbsp;: pourquoi estimer en points au poker planning</h1>
 
     <p class="lead">
-      Un point de complexité ne mesure pas un temps. Il dit combien une story est plus grosse qu'une autre. Le temps, lui, se mesure après coup, sprint après sprint. C'est ce qui rend les dates plus justes qu'avec des jours-homme.
+      Un point de complexité mesure la taille d'une story par rapport à une autre. Le temps vient ensuite&nbsp;: l'équipe compte les points qu'elle termine par sprint, et ce rythme mesuré donne des dates plus justes que des jours-homme devinés.
     </p>
 
-    <h2>Le problème des jours-homme, en une story</h2>
-    <p>Prenez la story «&nbsp;exporter les commandes en CSV&nbsp;». Alice connaît le module&nbsp;: elle dit 2 jours. Bob vient d'arriver&nbsp;: il dit 5 jours.</p>
-    <p>Les deux ont raison. Ils ne parlent pas de la story, ils parlent d'eux. Une estimation en jours mélange trois choses&nbsp;: la taille du travail, la personne qui le fait et le temps qu'elle aura vraiment.</p>
-    <p>Posez-leur une autre question&nbsp;: «&nbsp;Par rapport au formulaire de profil livré le mois dernier, c'est plus gros&nbsp;?&nbsp;» Alice et Bob répondent pareil&nbsp;: «&nbsp;à peu près deux fois plus gros.&nbsp;» Sur la taille, ils sont d'accord. C'est ce que mesure un point.</p>
+    <h2>Alice dit 2 jours, Bob dit 5 jours, et les deux disent 5 points</h2>
+    <p>Prenez la story «&nbsp;exporter les commandes en CSV&nbsp;». Alice connaît le module et annonce 2 jours. Bob vient d'arriver et annonce 5 jours.</p>
+    <p>Les deux ont raison, car chacun décrit sa propre vitesse. Une estimation en jours mélange la taille du travail, la personne qui le fait et le temps dont elle disposera.</p>
+    <p>L'équipe compare ensuite cette story à sa référence, le formulaire de profil livré le mois dernier, qui vaut 3 points. Alice et Bob répondent pareil&nbsp;: «&nbsp;à peu près deux fois plus gros&nbsp;». La carte la plus proche de 6 est le 5, donc la story CSV vaut 5 points.</p>
 
-    <h2>Un point de complexité, c'est une taille</h2>
-    <p>Un point est une <strong>taille relative</strong>. L'équipe choisit une story de référence, par exemple à 3 points, et compare chaque nouvelle story à celle-là. Le chiffre contient l'effort, la complexité et l'incertitude, mais pas la vitesse de la personne.</p>
-    <p>Au poker planning, chacun pose sa carte en secret, puis tout le monde révèle en même temps. Quand Alice pose 5 et Bob pose 13, l'écart ne vient pas de leur vitesse&nbsp;: il vient d'un risque que l'un voit et l'autre non. La discussion qui suit vaut plus que le chiffre.</p>
+    <h2>Un point compare une story à une story de référence</h2>
+    <p>Chaque nouvelle story reçoit un chiffre par comparaison avec la référence, pris dans la <a href="/fr/fibonacci">suite de Fibonacci</a>&nbsp;: 1, 2, 3, 5, 8, 13 ou 21. Ce chiffre compte l'effort, la difficulté et l'incertitude, et laisse de côté la vitesse de chacun.</p>
+    <p>Au poker planning (ou planning poker), chacun choisit sa carte en secret, puis l'équipe retourne toutes les cartes en même temps. Sur la story «&nbsp;payer par carte chez un nouveau prestataire&nbsp;», Alice pose 5 et Bob 13. Bob a déjà branché ce prestataire ailleurs et connaît les pièges de son API. Il les explique, puis l'équipe revote.</p>
+    <p>James Grenning a décrit le planning poker en 2002, et Mike Cohn l'a fait connaître dans «&nbsp;Agile Estimating and Planning&nbsp;» (2005). Le Guide Scrum ne cite pas les points&nbsp;: chaque équipe choisit de les utiliser.</p>
 
-    <h2>Le temps se mesure, il ne se devine pas</h2>
-    <p>C'est le point que peu de gens voient. Avec des jours-homme, l'équipe <strong>devine</strong> une durée. Avec des points, elle <strong>mesure</strong> combien de points elle termine par sprint&nbsp;: c'est la vélocité.</p>
-    <p>Une équipe de 4 personnes, sprints de 2 semaines, a 30 stories à livrer.</p>
+    <h2>La vélocité mesure ce que l'équipe livre par sprint</h2>
+    <p>La vélocité est le nombre de points que l'équipe termine à chaque sprint.</p>
+    <p>Exemple&nbsp;: une équipe de 4 personnes, en sprints de 2 semaines, doit livrer 30 stories.</p>
     <div class="table-wrap">
     <table>
       <thead><tr><th></th><th>En jours-homme</th><th>En points</th></tr></thead>
       <tbody>
         <tr><td>Estimation du lot</td><td>80 jours-homme</td><td>120 points</td></tr>
-        <tr><td>Capacité par sprint</td><td>4 personnes x 10 jours = 40 jours-homme</td><td>24 points, mesurés sur les 3 derniers sprints</td></tr>
-        <tr><td>Prévision</td><td>2 sprints</td><td>5 sprints</td></tr>
-        <tr><td>Réalité</td><td>5 sprints</td><td>5 sprints</td></tr>
+        <tr><td>Capacité par sprint</td><td>4 personnes x 10 jours = 40 jours-homme</td><td>21, 24 et 26 points sur les 3 derniers sprints</td></tr>
+        <tr><td>Prévision</td><td>2 sprints</td><td>5 à 6 sprints</td></tr>
+        <tr><td>Réalité</td><td>6 sprints</td><td>6 sprints</td></tr>
       </tbody>
     </table>
     </div>
-    <p>Pourquoi les jours se trompent&nbsp;? Un jour-homme estimé est un jour parfait. Dans un vrai sprint, il y a des réunions, des bugs urgents, des revues de code et des absences. Et chacun est un peu optimiste. L'erreur s'additionne story après story.</p>
-    <p>La vélocité, elle, vient des sprints réels. Les réunions, les bugs, l'optimisme&nbsp;: tout est déjà dedans. Si l'équipe se trompe toujours dans le même sens, la vélocité corrige seule. Les points n'ont pas besoin d'être justes, seulement <strong>cohérents entre eux</strong>.</p>
+    <p>Un jour-homme estimé est un jour parfait, passé en entier sur la story. Un sprint réel contient aussi des réunions, des bugs urgents, des revues de code et des absences. Chacun estime en plus un peu court, et l'erreur s'additionne de story en story.</p>
+    <p>La vélocité vient des sprints déjà finis, donc elle contient déjà les réunions, les bugs et l'optimisme. Elle varie d'un sprint à l'autre, donc la prévision est une fourchette&nbsp;: 5 à 6 sprints.</p>
 
-    <h2>Les avantages des points</h2>
+    <h2>Cinq gains des points pour l'équipe</h2>
     <ul>
-      <li><strong>On se met d'accord vite.</strong> Comparer deux stories est facile. Prédire une durée ne l'est pas.</li>
-      <li><strong>La date est plus juste.</strong> Elle vient de ce que l'équipe a vraiment livré, pas d'un calcul sur des jours parfaits.</li>
-      <li><strong>L'estimation reste vraie.</strong> Quand Bob progresse, la story fait toujours 5 points. C'est la vélocité qui monte.</li>
-      <li><strong>Ce n'est pas une promesse.</strong> «&nbsp;Tu avais dit 3 jours&nbsp;» met la pression sur une personne. «&nbsp;Elle faisait 5 points&nbsp;» ne vise personne.</li>
-      <li><strong>Le débat porte sur le travail.</strong> Un écart de cartes révèle un risque oublié, pas une différence de niveau.</li>
+      <li>L'accord vient vite&nbsp;: comparer deux stories est plus facile que prédire une durée.</li>
+      <li>La date repose sur ce que l'équipe a déjà livré.</li>
+      <li>L'estimation reste valable quand l'équipe change&nbsp;: si Bob progresse, la story CSV vaut toujours 5 points et la vélocité monte.</li>
+      <li>Personne ne s'engage seul&nbsp;: «&nbsp;tu avais dit 3 jours&nbsp;» vise une personne, «&nbsp;elle faisait 5 points&nbsp;» décrit une story.</li>
+      <li>Un écart entre deux cartes fait sortir un risque oublié avant le début du travail.</li>
     </ul>
 
-    <h2>Les défauts des points</h2>
+    <h2>Cinq limites des points</h2>
     <ul>
-      <li><strong>C'est abstrait.</strong> Un client ou un manager comprend «&nbsp;10 jours&nbsp;», pas «&nbsp;8 points&nbsp;». Il faut lui donner une date, calculée avec la vélocité.</li>
-      <li><strong>Il faut un historique.</strong> Une équipe neuve n'a pas de vélocité. Il faut 2 ou 3 sprints pour la mesurer.</li>
-      <li><strong>Ça ne sert qu'à une équipe.</strong> 30 points chez une équipe et 60 chez une autre ne veulent rien dire. Chacune a sa référence.</li>
-      <li><strong>Ça s'abîme si on en fait un objectif.</strong> Demandez plus de points par sprint et un 3 devient un 5, à travail égal.</li>
-      <li><strong>Ça ne fait pas un devis.</strong> Pour un forfait ou une facture, il faut des jours. Les points prévoient, ils ne facturent pas.</li>
+      <li>Un client ou un manager comprend «&nbsp;10 jours&nbsp;», rarement «&nbsp;8 points&nbsp;». Il attend une date, que la vélocité fournit.</li>
+      <li>Une équipe neuve n'a aucune vélocité. Elle doit finir 2 ou 3 sprints avant de prévoir.</li>
+      <li>Les points d'une équipe ne se comparent pas à ceux d'une autre, car chacune a sa story de référence.</li>
+      <li>Les points gonflent dès qu'ils deviennent un objectif. Un manager qui réclame plus de points par sprint obtient des 5 là où l'équipe posait des 3, à travail égal.</li>
+      <li>Un devis au forfait ou une facture se chiffre en jours. Les points servent à prévoir.</li>
     </ul>
 
-    <h2>L'erreur à ne pas faire&nbsp;: 1 point = 1 jour</h2>
-    <p>Beaucoup d'équipes estiment en points, puis affichent une table de conversion. Dès lors, chacun pense en jours et traduit en points. Les points deviennent des jours-homme avec un autre nom, et tous leurs avantages disparaissent.</p>
-    <p>Si on vous demande une date, faites une seule division&nbsp;: <strong>points restants / vélocité = nombre de sprints</strong>. 120 points à 24 points par sprint, c'est 5 sprints, soit 10 semaines. Cette conversion vaut pour un lot, jamais pour une story seule.</p>
+    <h2>La règle «&nbsp;1 point = 1 jour&nbsp;» ramène l'équipe aux jours-homme</h2>
+    <p>Beaucoup d'équipes estiment en points, puis affichent une table de conversion vers les jours. Chacun se remet alors à penser en jours et traduit son chiffre en points. L'estimation dépend de nouveau de la personne et de son optimisme.</p>
 
-    <h2>Points ou jours-homme&nbsp;: lequel choisir&nbsp;?</h2>
+    <h2>La seule conversion juste divise les points restants par la vélocité</h2>
+    <p>La date d'un lot se calcule par une division&nbsp;: <strong>points restants / vélocité = nombre de sprints</strong>. Le calcul se fait deux fois, avec la vélocité la plus basse et la plus haute des derniers sprints. Pour 120 points, 26 points par sprint donnent 4,6 sprints et 21 points en donnent 5,7. L'équipe annonce 5 à 6 sprints, soit 10 à 12 semaines.</p>
+    <p>Un manager lit une date unique comme un engagement. Une fourchette lui montre la marge d'erreur de la prévision.</p>
+    <p>Ce calcul vaut pour un lot de stories. Sur une story seule, il donne un chiffre faux, car la vélocité est une moyenne.</p>
+
+    <h2>Points pour prévoir en équipe, jours-homme pour chiffrer un devis</h2>
     <div class="table-wrap">
     <table>
       <thead><tr><th>Situation</th><th>Choix</th></tr></thead>
@@ -103,18 +108,18 @@
         <tr><td>Équipe stable qui travaille en sprints</td><td>Points</td></tr>
         <tr><td>Prévoir une date pour un lot de stories</td><td>Points et vélocité</td></tr>
         <tr><td>Devis au forfait, facture</td><td>Jours-homme</td></tr>
-        <tr><td>Tâche isolée, faite par une personne connue</td><td>Jours ou heures</td></tr>
+        <tr><td>Tâche isolée, confiée à une personne connue</td><td>Jours ou heures</td></tr>
       </tbody>
     </table>
     </div>
 
     <h2>Questions fréquentes</h2>
     <h3>Un point de complexité vaut combien de jours&nbsp;?</h3>
-    <p>Aucun nombre fixe. Le lien entre points et temps se mesure&nbsp;: une équipe qui termine 24 points par sprint de deux semaines livrera 120 points en 5 sprints, soit 10 semaines.</p>
+    <p>Aucun nombre fixe. Le rapport entre points et temps se mesure sur chaque équipe. Celle qui termine 21 à 26 points par sprint de 2 semaines livre 120 points en 5 à 6 sprints, soit 10 à 12 semaines.</p>
     <h3>Points de complexité et story points, est-ce la même chose&nbsp;?</h3>
-    <p>Oui. Points de complexité est le nom le plus courant en France, story points le nom d'origine. La <a href="/fr/story-points">page sur les story points</a> détaille le calibrage et l'échelle de Fibonacci.</p>
+    <p>Oui. En France, on dit surtout points de complexité, et story points est le nom d'origine. Les deux désignent la taille relative d'une user story, et la <a href="/fr/story-points">page sur les story points</a> explique comment calibrer l'échelle.</p>
     <h3>Quand faut-il estimer en jours-homme&nbsp;?</h3>
-    <p>Pour un devis au forfait, une tâche isolée faite par une personne connue, ou une équipe qui ne travaille pas en sprints. Pour prévoir le travail d'une équipe stable, les points et la vélocité donnent une date plus juste.</p>
+    <p>Pour un devis au forfait, une tâche isolée confiée à une personne connue, ou une équipe qui ne travaille pas en sprints.</p>
 
     <div class="cta">
       <a href="/fr" class="btn">Estimer en points avec votre équipe</a>
