@@ -114,6 +114,12 @@ describe('the words of the card', () => {
 describe('the pocket deck', () => {
   const manifest = JSON.parse(readFileSync('static/manifest.webmanifest', 'utf8'));
 
+  it('opens from a discreet link in the footer, not from the form', () => {
+    const home = readFileSync('src/lib/HomepageTemplate.svelte', 'utf8');
+    expect(home.indexOf('data-testid="pocket-btn"')).toBeGreaterThan(home.indexOf('</form>'));
+    expect(home).toContain('lead={homeLinks}');
+  });
+
   it('opens from the shortcut the installed app offers', () => {
     expect(manifest.shortcuts.map((s: { url: string }) => s.url)).toEqual([`/${POCKET_HASH}`]);
   });
