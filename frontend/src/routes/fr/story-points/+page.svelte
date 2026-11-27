@@ -96,6 +96,7 @@
       <li><strong>La durée dépend de la personne.</strong> Une tâche de 4 heures pour quelqu'un qui connaît le module peut en demander 12 à quelqu'un qui le découvre.</li>
       <li><strong>L'échelle relative disparaît.</strong> Une fois la conversion affichée, l'équipe estime en jours puis traduit en points.</li>
     </ul>
+    <p>Le détail, avec un exemple chiffré&nbsp;: <a href="/fr/points-de-complexite">points de complexité ou jours-homme</a>.</p>
     <p>Pour donner une date, passez par la vélocité&nbsp;: 46 points à 23 points par sprint de deux semaines font 2 sprints, soit 4 semaines. Le résultat vaut pour un lot de stories, pas pour une story seule.</p>
 
     <h2>Vélocité&nbsp;: prévoir avec les story points</h2>

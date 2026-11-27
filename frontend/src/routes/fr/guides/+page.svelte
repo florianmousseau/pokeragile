@@ -30,6 +30,7 @@
       <li><a href="/fr/planning-poker">Guide du poker planning</a></li>
       <li><a href="/fr/scrum-poker">Scrum poker</a></li>
       <li><a href="/fr/story-points">Story points</a></li>
+      <li><a href="/fr/points-de-complexite">Points de complexité ou jours-homme</a></li>
       <li><a href="/fr/t-shirt-sizing">T-shirt sizing</a></li>
       <li><a href="/fr/fibonacci">Fibonacci en estimation agile</a></li>
       <li><a href="/fr/suite-de-fibonacci" data-sveltekit-reload>Suite de Fibonacci&nbsp;: les 100 premiers nombres</a></li>
