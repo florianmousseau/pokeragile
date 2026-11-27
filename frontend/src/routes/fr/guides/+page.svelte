@@ -31,11 +31,18 @@
       <li><a href="/fr/scrum-poker">Scrum poker</a></li>
       <li><a href="/fr/story-points">Story points</a></li>
       <li><a href="/fr/points-de-complexite">Points de complexité ou jours-homme</a></li>
+      <li><a href="/fr/velocite">Vélocité Scrum&nbsp;: définition et calcul</a></li>
       <li><a href="/fr/t-shirt-sizing">T-shirt sizing</a></li>
       <li><a href="/fr/fibonacci">Fibonacci en estimation agile</a></li>
       <li><a href="/fr/suite-de-fibonacci" data-sveltekit-reload>Suite de Fibonacci&nbsp;: les 100 premiers nombres</a></li>
       <li><a href="/fr/estimation-agile">Estimation agile</a></li>
       <li><a href="/fr/alternatives">Alternatives au poker planning</a></li>
+    </ul>
+    <h2>Scrum</h2>
+    <ul>
+      <li><a href="/fr/user-story">User story&nbsp;: définition, format et exemples</a></li>
+      <li><a href="/fr/sprint-planning">Sprint planning&nbsp;: déroulé, durée et objectif</a></li>
+      <li><a href="/fr/definition-of-done">Definition of Done&nbsp;: définition et exemple</a></li>
     </ul>
     <h2>Avec un assistant IA</h2>
     <ul>
