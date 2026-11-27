@@ -1,6 +1,7 @@
 <script lang="ts">
   import { lang } from '#lib/lang.svelte.ts';
   import { theme } from '#lib/theme.svelte.ts';
+  import type { Snippet } from 'svelte';
 
   interface Props {
     navAriaLabel: string;
@@ -11,11 +12,11 @@
     about: string;
     locale: string;
     onLangChange?: (l: string) => void;
-    /** The home page links its guides; the room keeps a bare footer. */
-    guides?: boolean;
+    /** Links the home page adds at the head of the list; the room keeps a bare footer. */
+    lead?: Snippet;
   }
 
-  let { navAriaLabel, source, license, legal, privacy, about, locale, onLangChange, guides = false }: Props = $props();
+  let { navAriaLabel, source, license, legal, privacy, about, locale, onLangChange, lead }: Props = $props();
 
   const ALL_LANGS = ['en', 'fr', 'es', 'de', 'pt'] as const;
   const langHref = (l: string) => (l === 'en' ? '/' : `/${l}`);
@@ -35,8 +36,6 @@
   );
 
   const prefix = $derived(locale === 'en' ? '' : `/${locale}`);
-
-  const GUIDES_LABEL: Record<string, string> = { en: 'Guides', fr: 'Guides', es: 'Guías', de: 'Leitfäden', pt: 'Guias' };
 
 </script>
 
@@ -79,7 +78,7 @@
     </button>
   </div>
   <p>
-    {#if guides}<a href="{prefix}/guides">{GUIDES_LABEL[locale] ?? 'Guides'}</a> |{/if}
+    {@render lead?.()}
     <a href="https://github.com/florianmousseau/pokeragile" rel="noopener noreferrer">{source}</a>
     | <a href="https://github.com/florianmousseau/pokeragile/blob/main/LICENSE" rel="noopener noreferrer">{license}</a>
     | <a href="{prefix}/a-propos">{about}</a>

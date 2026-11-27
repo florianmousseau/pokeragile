@@ -151,6 +151,7 @@
   let ready = $state(false);
   // A deck in the hand for a team in one room: nothing is created or sent.
   let pocketOpen = $state(false);
+  const GUIDES_LABEL: Record<string, string> = { en: 'Guides', fr: 'Guides', es: 'Guías', de: 'Leitfäden', pt: 'Guias' };
   const ShowCard = lazily(() => pocketOpen, () => import('#lib/ShowCard.svelte'));
   function closePocket() {
     pocketOpen = false;
@@ -422,16 +423,18 @@
       <button type="submit" class="btn btn-primary btn-lg" disabled={!ready || creating || !isValid} data-testid="create-btn">
         {creating ? creatingLabel : createBtnLabel}
       </button>
-      <button type="button" class="reset-btn" disabled={!ready || !isValid} onclick={() => (pocketOpen = true)} data-testid="pocket-btn">
-        {POCKET_WORDS[locale]}
-      </button>
     </form>
     {#if pocketOpen && ShowCard.current}
       <ShowCard.current {locale} deck={cards} name={POCKET_WORDS[locale]} onclose={closePocket} />
     {/if}
   </main>
 
+  {#snippet homeLinks()}
+    <button type="button" class="link-btn" disabled={!ready || !isValid} onclick={() => (pocketOpen = true)} data-testid="pocket-btn">{POCKET_WORDS[locale]}</button>
+    | <a href="{locale === 'en' ? '' : `/${locale}`}/guides">{GUIDES_LABEL[locale]}</a> |
+  {/snippet}
   <Footer
+    lead={homeLinks}
     {navAriaLabel}
     source={footerSource}
     license={footerLicense}
@@ -439,7 +442,6 @@
     legal={footerLegal}
     privacy={footerPrivacy}
     {locale}
-    guides
   />
 </div>
 
@@ -480,6 +482,9 @@
     cursor: pointer;
   }
   .reset-btn:hover { color: var(--color-primary); }
+  .link-btn { background: none; border: 0; padding: 0; font: inherit; color: var(--color-primary); text-decoration: underline; cursor: pointer; }
+  .link-btn:hover { color: var(--color-primary-hover); }
+  .link-btn:disabled { color: var(--color-text-muted); cursor: default; }
   .presets { display: flex; gap: 0.375rem; flex-wrap: wrap; }
   .preset-btn {
     padding: 0.3rem 0.875rem; font-size: 0.825rem; font-family: inherit; font-weight: 600;
