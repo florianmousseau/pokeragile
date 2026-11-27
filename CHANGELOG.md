@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.0.79] - 2026-11-27
+
+- docs: retake the README screenshot from pokeragile.com, drop leftover CleanPoker names (#488)
+- fix(show-card): keep the close button above the cards in full screen (#487)
+
+## [0.0.78] - 2026-11-27
+
+- docs(fr): add article on complexity points versus person-days (#484)
+
 ## [0.0.77] - 2026-11-27
 
 - docs: rewrite agent rules in English, technical rules only (#481)

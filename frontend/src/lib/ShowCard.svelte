@@ -70,6 +70,13 @@
 <dialog bind:this={dialog} onclose={closed} aria-label={name ?? W.show} data-testid="show-card">
   <div class="stage" bind:this={stage}>
     {#if open}
+      <!-- On top: Android lays its full-screen hint over the bottom of the screen. -->
+      <div class="bar">
+        {#if deck && card}
+          <button type="button" class="btn btn-secondary btn-sm" onclick={() => (picked = '')} data-testid="show-card-change">{W.change}</button>
+        {/if}
+        <button type="button" class="btn btn-secondary btn-sm" onclick={() => dialog?.close()} data-testid="show-card-close">{W.close}</button>
+      </div>
       {#if card}
         <button type="button" class="big" class:back={!face} onclick={() => (flipped = !flipped)}
           aria-label={W.flip} data-testid="show-card-face">
@@ -86,12 +93,6 @@
           {/each}
         </ul>
       {/if}
-      <div class="bar">
-        {#if deck && card}
-          <button type="button" class="btn btn-secondary btn-sm" onclick={() => (picked = '')} data-testid="show-card-change">{W.change}</button>
-        {/if}
-        <button type="button" class="btn btn-secondary btn-sm" onclick={() => dialog?.close()} data-testid="show-card-close">{W.close}</button>
-      </div>
     {/if}
   </div>
 </dialog>

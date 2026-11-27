@@ -132,6 +132,16 @@ describe('the pocket deck', () => {
   });
 });
 
+describe('the full-screen card', () => {
+  it('keeps its buttons above the card, clear of the hint Android lays at the bottom', () => {
+    const source = readFileSync('src/lib/ShowCard.svelte', 'utf8');
+    const markup = source.slice(source.indexOf('<dialog'));
+    expect(markup.indexOf('class="bar"')).toBeGreaterThan(-1);
+    expect(markup.indexOf('class="bar"')).toBeLessThan(markup.indexOf('show-card-deck'));
+    expect(markup.indexOf('class="bar"')).toBeLessThan(markup.indexOf('show-card-face'));
+  });
+});
+
 describe('where the card is fetched', () => {
   it('never travels with the room or the home page', () => {
     for (const file of ['src/routes/[id]/+page.svelte', 'src/lib/HomepageTemplate.svelte']) {
