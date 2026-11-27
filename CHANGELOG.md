@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.0.81] - 2026-11-27
+
+- fix(show-card): put the close button right under the pocket deck (#494)
+- feat(home): move the pocket deck link to the footer (#489)
+
 ## [0.0.80] - 2026-11-27
 
 - docs(fr): add user story, velocity, definition of done and sprint planning articles
