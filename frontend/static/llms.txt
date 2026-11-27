@@ -48,6 +48,10 @@ The Fibonacci sequence (1, 2, 3, 5, 8, 13, 21) models growing uncertainty: the l
 - [Story points](https://pokeragile.com/story-points) - What a story point measures, why the scale is Fibonacci, calibration, velocity, a worked example with three stories
 - [Story points (FR)](https://pokeragile.com/fr/story-points) - French version
 - [Points de complexite ou jours-homme](https://pokeragile.com/fr/points-de-complexite) - French article: why estimate in points rather than person-days
+- [User story (FR)](https://pokeragile.com/fr/user-story) - French article: definition, format, examples
+- [Velocite Scrum (FR)](https://pokeragile.com/fr/velocite) - French article: definition and calculation
+- [Definition of Done (FR)](https://pokeragile.com/fr/definition-of-done) - French article: definition and example
+- [Sprint planning (FR)](https://pokeragile.com/fr/sprint-planning) - French article: agenda, timebox, sprint goal
 - [RACI matrix](https://pokeragile.com/raci-matrix) - The four letters, the rules, three filled examples (software project, Scrum sprint, product launch), the RASCI, RACI-VS, DACI and RAPID variants, and a matrix to fill in on the page with CSV and Markdown export
 - [Matrice RACI (FR)](https://pokeragile.com/fr/matrice-raci) - French version
 - [Scrum poker online](https://pokeragile.com/scrum-poker) - Scrum poker, planning poker and pointing poker as one technique, how a round goes, the card decks, what the room shows at the reveal
