@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.77] - 2026-11-27
+
+- docs: rewrite agent rules in English, technical rules only (#481)
+
 ## [0.0.76] - 2026-11-26
 
 - feat(room): show the delivered stories that look like the one on the table (#476)
