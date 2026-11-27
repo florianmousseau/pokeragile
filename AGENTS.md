@@ -1,311 +1,123 @@
-# CleanPoker - règles pour les agents
+# PokerAgile - rules for agents
 
-## Auteur des commits
+## Commits
 
-- Le seul auteur de commit est **Florian MOUSSEAU** (`florian.mousseau@gmail.com`)
-- Ne jamais ajouter de ligne `Co-Authored-By: Claude` dans les messages de commit
-- Ne jamais ajouter de ligne `Claude-Session:` dans les messages de commit
-- Ne jamais modifier `user.name` ou `user.email` au-delà de cette correction initiale
-
-## Caractères à ne jamais utiliser
-
-- Ne jamais utiliser le caractère `·` (point médian, U+00B7) dans du contenu écrit (titres, descriptions, textes)
-- Ne jamais utiliser `—` (tiret cadratin) comme séparateur dans les titres de pages ou balises meta
-- Pour séparer des éléments dans un titre ou une description : utiliser la virgule `,` ou le tiret simple `-`
+- Commit author: Florian Mousseau. No co-author trailers.
+- Conventional commits, in English.
+- `main` is production. Work goes through a branch and a PR into `develop`; never
+  open a PR whose source branch is `develop` or `main` (merged sources are deleted).
 
 ## Stack
 
-- Frontend : SvelteKit 5 (runes), TypeScript, CSS vanilla
-- Backend : Go + WebSocket natif
-- Hébergement : Cloudflare Pages (frontend) + OVHcloud Gravelines (backend, `salles.pokeragile.com`, construit depuis `main` par le VPS)
-- Branche de prod : `main` (jamais de commit direct, toujours via PR depuis `develop`)
+- Frontend: SvelteKit 5 (runes), TypeScript, vanilla CSS, on Cloudflare Pages.
+- Backend: Go with native WebSocket (`backend/`), serving rooms on
+  `salles.pokeragile.com`, built from `main`.
+- `backend/go.mod` sets the Go version. CI reads it with `go-version-file`, and the
+  `Dockerfile` pins the same patch version. No floating tag.
 
-## Philosophie du projet
+## Gate
 
-- Aucun traceur, aucun cookie publicitaire, aucun script tiers
-- JS < 50 Ko (brotli) à la première visite, mesuré par `npm run size` sur l'accueil (`/`, `/fr`) et sur une salle (`/[id]`)
-- Lighthouse Performance et Accessibilité : 100/100
-- WCAG 2.1 AA
-- Hébergement sur énergie renouvelable
-
-## La mesure d'audience : aucun script, et la phrase qui va avec
-
-Le 2026-08-24, sur décision de Florian pour tout le portefeuille (direction
-D-042), le script de mesure a quitté toutes les pages. Aucune balise, aucun
-cookie de mesure, aucun identifiant de visiteur, aucun script tiers.
-
-**Ce que ça n'autorise PAS à écrire : « ce site ne mesure rien ».** Cloudflare
-compte toujours les requêtes au niveau du réseau, pour ce site comme pour tous
-ceux qu'il sert, et c'est ce comptage que lit le cockpit. La phrase juste dit
-les DEUX moitiés : aucun script, aucun cookie, aucun identifiant déposé sur
-l'appareil, ET un comptage des requêtes par l'hébergeur, comme pour tout site.
-Une moitié seule est un mensonge, dans un sens ou dans l'autre, et les deux ont
-déjà été payés ici : la promesse trop large le 2026-08-11, quand la balise est
-arrivée sur un produit qui vendait « zéro trackers » en cinq langues, et le
-défaut inverse le jour où on l'a retirée.
-
-Le badge public `trackers-0` est revenu, parce qu'aucun traceur ne touche plus
-le lecteur. Il n'est défendable que tant que la nuance est écrite à côté de lui,
-et `npm run mesure` refuse le badge sans sa phrase.
-
-**Ne réécris jamais « aucune mesure », « nothing is measured », « no analytics
-of any kind », « ninguna medición », « nenhuma medição » ni « keine Messung »**,
-dans aucune des cinq langues, nulle part : page, meta, JSON-LD, mots-clés,
-`llms.txt`, README ou commentaire. `npm run mesure` balaie TOUS les fichiers
-livrés, pas une liste de fichiers, précisément pour attraper la page que
-quelqu'un écrira le mois prochain avec le vocabulaire d'à côté.
-
-Ce qui reste vrai et se vend toujours : aucun cookie publicitaire, aucun compte,
-aucun script tiers, moins de 50 Ko de JS, et le contenu des sessions qui vit en
-mémoire et ne quitte pas Gravelines.
-
-## Moins de 50 Ko de JavaScript : ce que le visiteur télécharge
-
-La promesse publique est « moins de 50 Ko de JavaScript ». Elle se mesure sur
-ce qu'une première visite télécharge, pas sur un dossier du build.
-
-`frontend/scripts/check-first-visit.mjs`, joué par `npm run size` après la
-garde `Entry JS` de size-limit, suit le manifeste du build : les fichiers
-d'entrée, le client qu'ils importent toujours, les layouts et la page de la
-route, et tout ce qu'ils importent statiquement. Pour une salle il ajoute LE
-dictionnaire que son `load` attend, le plus lourd des cinq. Trois visites sont
-tenues sous 50 000 octets brotli : `/`, `/fr` et `/[id]`. Ce qui se charge au
-clic (options, liste de stories, IA locale) n'est pas compté.
-
-L'ancienne garde sommait `chunks/` : elle passait pendant qu'une salle
-téléchargeait 55 Ko, parce que le fichier de la salle n'était pas dans ce
-dossier, et elle aurait rougi le jour où les cinq langues sont devenues cinq
-fichiers chargés un à un.
-
-Le contrôle refuse de passer sur du vide : manifeste absent, route inconnue,
-fermeture trop petite pour être une page, ou salle qui n'a plus cinq
-dictionnaires. Il prouve son parcours sur un échantillon avant de lire le
-build. Si une salle dépasse, on allège la salle, on ne touche pas à la limite.
-
-**Les dictionnaires ne s'importent jamais statiquement.** `src/lib/i18n/<langue>.ts`
-porte ce que la salle dit, `src/lib/i18n/extras/<langue>.ts` ce que seuls les
-options, le formulaire de stories, le QR code et l'IA locale disent ;
-`src/lib/dictionaries.ts` en charge une langue à la fois, et
-`src/routes/[id]/+page.ts` l'attend avant l'affichage. Un import statique
-remettrait les cinq langues dans chaque salle : `src/lib/slim.test.ts` le refuse.
-
-## Invariants à ne pas casser
-
-- **La politique de sécurité est dans DEUX fichiers** : `frontend/_headers` pour
-  les fichiers statiques et `frontend/src/hooks.server.ts` pour les pages du
-  worker. Une permission rouverte dans l'un et pas l'autre est une porte que
-  personne ne surveille. `npm run mesure` tient les deux fermées et égales.
-- **En-têtes de sécurité** : ils sont posés dans `frontend/src/hooks.server.ts`.
-  Cloudflare Pages n'applique `frontend/_headers` qu'aux fichiers statiques,
-  jamais aux réponses du worker SvelteKit, donc les pages HTML n'en reçoivent
-  aucun si on les retire des hooks. Les deux fichiers doivent rester
-  synchronisés. Depuis `adapter-cloudflare` 7, ce fichier vit à la racine du
-  projet et non plus dans `static/` : le build échoue s'il y retourne.
-- **Version de Go** : `backend/go.mod` fait foi. La CI la lit avec
-  `go-version-file` et le `Dockerfile` doit être épinglé sur la même version
-  patch. Ne pas revenir à un tag flottant : la CI testerait autre chose que ce
-  qui part en production.
-- **Route `/[id]`** : elle capte toute URL inconnue à la racine, ce qui est
-  voulu (les salons vivent là). Elle est en `noindex`, ne pas l'enlever sous
-  peine d'exposer une infinité d'URLs indexables.
-
-## Un deux-points ne commence jamais une ligne francaise
-
-En francais, une ponctuation double se soude au mot qui la precede par une espace
-insecable. Avec une espace ordinaire, le retour a la ligne l'envoie seule en tete
-de la ligne suivante, et c'est ce qu'on lit sur un telephone. Meme geste pour
-`?`, `!`, `;` et les deux chevrons - l'ouvrant reste sinon seul en fin de ligne.
-
-`frontend/src/typographie.test.ts` le refuse et tourne dans `npm test`, donc dans
-la CI. Il prouve d'abord son propre detecteur : en JavaScript `\s` matche
-l'insecable, donc un controle ecrit avec `\s` passerait au vert en ne mesurant
-rien.
-
-**Le perimetre est le francais et lui seul.** Le site sert cinq langues, et dans
-les quatre autres l'espace devant un deux-points n'existe pas. Sont lus
-`src/routes/fr`, les dictionnaires `src/lib/i18n/fr.ts` et `src/lib/i18n/extras/fr.ts`, et `src/routes/+error.svelte`,
-seul ecran francais qu'aucun dictionnaire ne traduit.
-
-**L'insecable ne s'ecrit jamais en clair dans une source** : posee litteralement,
-elle est indiscernable d'une espace ordinaire a la relecture. La forme depend de
-l'endroit, et chaque ligne du tableau a ete mesuree sur le build :
-
-| Endroit                             | Forme                            |
-| ----------------------------------- | -------------------------------- |
-| texte d'un `.svelte`                | `Texte&nbsp;: suite`             |
-| PROP d'un composant                 | `h1Main="Texte&nbsp;:"`          |
-| chaine JavaScript ou TypeScript     | `'Texte\u00A0: suite'`      |
-| JSON-LD d'un `{@html}`              | rien, espace ordinaire           |
-
-La deuxieme ligne est celle qui surprend : **Svelte decode l'entite dans la prop
-d'un composant**, contrairement a Astro qui sert `&amp;nbsp;` en clair. Mesure
-sur `.svelte-kit/output/server` le 2026-08-20, pas deduite.
-
-La quatrieme est un refus motive. Chaque page francaise construit son graphe dans
-un `{@html `...`}` du `<svelte:head>` : une chaine JavaScript passee a
-`JSON.stringify`, puis injectee dans un `<script type="application/ld+json">`.
-Un navigateur ne decode aucune entite a l'interieur d'un `script`, donc `&nbsp;`
-y serait servi en clair au robot qui lit le graphe. Et souder ces chaines ne
-repare rien : le JSON-LD est une donnee servie a une machine, pas du texte qui se
-coupe a la largeur d'un ecran. La copie visible des memes phrases, elle, est
-soudee, et c'est celle que la regle vise.
-
-## Rien ne pousse une page au-dela d'un ecran de 320 px
-
-Mesure du 2026-08-23, en production, sur 16 pages servies x 3 regimes - 360 px,
-320 px, et 320 px avec la taille de texte du navigateur doublee. Onze pages sur
-seize debordaient dans le dernier regime, jusqu'a 432 px, et `body` portait
-`overflow-x: hidden`, qui CLIPPE le debordement au lieu de le reparer : le texte
-est coupe au bord droit sans qu'aucun defilement ne permette d'y aller.
-
-`frontend/scripts/check-reflow.mjs` tient les sept causes, lit `app.css` **et**
-les 48 blocs `<style>` des composants, et prouve chacune de ses regles sur un
-echantillon avant de s'autoriser a passer. Il pose aussi un plancher - moins de
-40 feuilles ou moins de 650 regles le rendent ROUGE au lieu de le rendre muet.
-
-Il est cable **aux deux endroits** : `npm run check:reflow` et une etape du job
-`Code Quality` de `deploy.yml`. Ce depot n'a pas de script `gate` unique, sa CI
-rejoue les commandes une par une ; branche a un seul endroit, le controle ne
-tournerait jamais.
-
-Ce qu'il refuse, et ce qui l'a mis la :
-
-- une piste `1fr` nue, qui vaut `minmax(auto, 1fr)` - cet `auto` est la
-  min-content de la cellule ;
-- une grille sans `grid-template-columns`, qui recoit la meme piste implicite ;
-- un minimum de `minmax()` ecrit en longueur (`minmax(18rem, 1fr)`) ;
-- un padding horizontal en `rem`, qui DOUBLE quand le lecteur agrandit le texte.
-  Il y en avait 87 ; les plafonner en `min(Xrem, Ypx)` ne change rien a taille
-  normale, ou 1rem vaut deja 16px ;
-- `white-space: nowrap` hors d'un `@media (min-width: <px>)`, d'un texte
-  visuellement cache, ou d'une boite qui defile horizontalement ;
-- une rangee flex `space-between` qui ne dit pas si elle peut se replier ;
-- le plancher d'un `clamp()` en `rem` sur ce qui mange de la largeur.
-
-**Un tableau est la seule boite que `overflow-wrap: break-word` ne peut pas
-aider** : sa largeur minimale est la SOMME des min-content de ses colonnes, et
-`break-word` ne descend jamais une min-content - c'est meme ce qui le rend sans
-danger sur un ecran large. `th, td { overflow-wrap: anywhere }` a ete essaye
-d'abord, sur les pages en ligne : il ramene les six pages fautives a zero et
-CASSE une soudure au passage, Chrome coupant la ligne sur l'insecable de
-« XXL, ? ». **Reparer un debordement en cassant une soudure ne compte pas.**
-Chaque `<table>` vit donc dans un `<div class="table-wrap">` qui defile, et le
-controle verifie les deux moities : que la classe existe dans `app.css`, et
-qu'aucun `<table>` n'est en dehors.
-
-**Ce que la gate ne peut pas voir, et il faut le savoir en la lisant** : le
-plancher d'un `clamp()` sur un TITRE. Qu'un titre tienne dans sa colonne depend
-des MOTS qu'il contient, pas du CSS. Ici les titres sont revenus a zero une fois
-`overflow-wrap: break-word` pose sur le corps, mais c'est un constat sur ce
-texte-la, pas une garantie. Seul un balayage au navigateur le verrait revenir.
-
-Le releve se refait en une commande depuis le cockpit :
+There is no single `gate` script: CI (`deploy.yml`) runs each command, so a new
+check is wired in `package.json` AND in the workflow.
 
 ```
-node cockpit/pistes/mesures/mesurer-ecran-etroit.mjs <fichier-d-urls> > releve.json
+cd frontend && npm run lint && npm run check && npm test \
+  && npm run check:seo && npm run check:reflow && npm run mesure \
+  && npm run build && npm run size
+cd backend && go test ./... && go run golang.org/x/vuln/cmd/govulncheck@latest ./...
 ```
 
-## Le pourcent est une ponctuation double
+A change in behaviour comes with a test that fails without it. When a check turns
+red, fix the cause; never loosen the check or the budget.
 
-`frontend/src/typographie.test.ts` refuse desormais l'espace ordinaire devant
-`%` comme devant `:` `;` `?` `!` `»`. Trois `100 %` et un `200 %` vivaient sous
-une garde verte, parce qu'elle ne connaissait que la ponctuation. Le signe se
-detache exactement pareil et suit toujours un chiffre.
+## Budgets
 
-L'anglais colle son pourcent (`72.45%`) : cette forme n'a pas d'espace du tout et
-ne peut donc pas rougir, ce que le detecteur prouve.
+- **Under 50 kB of JavaScript (brotli) on a first visit**, for `/`, `/fr` and
+  `/[id]`. `frontend/scripts/check-first-visit.mjs` (run by `npm run size`) follows
+  the build manifest: entry files, layouts, the route page, their static imports,
+  and for a room the heaviest of the five dictionaries. What loads on click
+  (options, story list, local AI) is not counted. If a room goes over, slim the
+  room.
+- **Lighthouse Performance and Accessibility: 100/100.**
+- **WCAG 2.1 AA.**
+- No third-party script, no advertising cookie, no account.
 
-Il refuse aussi **un signe qui OUVRE une ligne de source** : le retour a la ligne
-d'une source HTML est rendu comme une espace ordinaire, donc un signe pose seul
-en tete de ligne s'affiche colle a l'espace de la ligne d'avant.
+## Audience measurement
 
-## Les pages de rang Fibonacci ne chargent rien cote client
+No script, no cookie, no visitor identifier on any page. The host (Cloudflare)
+still counts requests at network level, as for any site. Any public sentence about
+measurement states both halves: no script or cookie on the device, AND request
+counting by the host. Never write that the site "measures nothing", in any of the
+five languages, anywhere shipped. `npm run mesure` scans every shipped file and
+refuses those phrases, and refuses the `trackers-0` badge without its sentence.
 
-`/fr/suite-de-fibonacci/[n]` et `/fibonacci-numbers/[n]` servent les rangs 1 a
-100 depuis UNE route chacune. Trois choix y tiennent le JS partage sous 50 Ko,
-et chacun a ete mesure avec `npm run size` avant d'etre retenu (base 47,96 Ko) :
+## Internationalisation
 
-- **aucune fonction `load`** : la premiere `load` serveur du site coute 0,96 Ko
-  de JS partage a toutes les pages, la premiere `load` universelle 0,80 Ko ;
-- **aucun matcher de parametre** (`src/params.ts`) : 0,46 Ko. Un rang inconnu
-  (`/fibonacci-numbers/101`, `/fr/suite-de-fibonacci/abc`) est renvoye en 404
-  par `hooks.server.ts`, sur la regle `rangInconnu` de `src/lib/fibonacci.ts` ;
-- **`csr = false`** dans `+page.server.ts` et un calcul garde par
-  `import.meta.env.SSR` dans la page : `src/lib/fibonacci-pages.ts` et la table
-  des facteurs premiers ne partent dans aucun fichier client.
+- Five languages: EN, FR, ES, DE, PT.
+- `src/lib/i18n/<lang>.ts` holds what the room says; `src/lib/i18n/extras/<lang>.ts`
+  what only the options, story form, QR code and local AI say.
+- **Never import a dictionary statically.** `src/lib/dictionaries.ts` loads one
+  language at a time and `src/routes/[id]/+page.ts` awaits it.
+  `src/lib/slim.test.ts` enforces it.
 
-La consequence a connaitre : un lien vers une page de rang doit demander la page
-au serveur. Le tableau des deux pages de reference porte `data-sveltekit-reload`
-et `fibonacci.test.ts` le verifie. Les deux pages de reference, elles, calculent
-leurs 100 lignes avec six lignes recopiees dans leur propre fichier, et le meme
-test compare leur rendu au module.
+## French typography
 
-Les entrees du sitemap se regenerent avec `node scripts/gen-fibonacci-sitemap.mjs`,
-la table des facteurs avec `node scripts/gen-fibonacci-facteurs.mjs`.
+`frontend/src/typographie.test.ts` (in `npm test`) refuses an ordinary space before
+`:` `;` `?` `!` `%` `»` (and after `«`), and a sign that opens a source line. Scope:
+`src/routes/fr`, the French dictionaries and `src/routes/+error.svelte`. Never type
+the no-break space literally:
 
-## Le generateur RACI ne partage aucun module avec la salle
+| Where                    | Form                                        |
+| ------------------------ | ------------------------------------------- |
+| text in a `.svelte` file | `Texte&nbsp;: suite`                        |
+| component prop           | `h1Main="Texte&nbsp;:"` (Svelte decodes it) |
+| JS or TS string          | `'Texte : suite'`                           |
+| JSON-LD inside `{@html}` | ordinary space                              |
 
-`/fr/matrice-raci` et `/raci-matrix` portent le meme composant,
-`src/lib/RaciGenerator.svelte`, sa logique `src/lib/raci.ts` et ses mots
-`src/lib/raci-words.ts` (pas les dictionnaires de la salle). Mesure avec
-`npm run size` le 2026-11-20, base 42,29 / 42,53 / 49,14 Ko :
+Titles and meta: no middle dot (U+00B7), no em dash as separator; use `,` or `-`.
 
-- importer `cellCsv` et `cellMd` de `export.ts` en fait un fichier que chaque
-  salle telecharge : +0,09 Ko sur la salle. `presse-papiers.ts` : +0,06 Ko.
-  `raci.ts` garde donc ses deux ecrivains de cellule et le composant son appel
-  au presse-papiers ;
-- deux routes de plus coutent 0,13 Ko a l accueil et 0,18 Ko a la salle : le
-  manifeste du routeur, que toute page charge, nomme chaque route, son fichier
-  et ses dependances. Mesure finale : 42,42 / 42,66 / 49,32 Ko.
+## Narrow screens
 
-La matrice vit dans le fragment de l adresse (`#m=`), que le navigateur n envoie
-pas au serveur. Un lien est du texte tape : `decodeMatrix` refuse tout ce qui
-n est pas exactement une matrice sous les plafonds, et ne repare rien.
+Nothing may push a page past 320 px, including with browser text size doubled.
+`frontend/scripts/check-reflow.mjs` (`npm run check:reflow`, also a step of
+`deploy.yml`) reads `app.css` and every component `<style>` and refuses:
 
-## L historique d une equipe vit dans ses navigateurs, jamais sur le serveur
+- a bare `1fr` track, or a grid without `grid-template-columns`;
+- a `minmax()` minimum written as a length;
+- horizontal padding in `rem` (use `min(Xrem, Ypx)`);
+- `white-space: nowrap` outside a `min-width` media query, visually hidden text or
+  a horizontally scrolling box;
+- a `space-between` flex row that does not say whether it wraps;
+- a `rem` floor on a `clamp()` that consumes width.
 
-Une salle vit en memoire : elle s efface 24 h apres la derniere activite et a
-chaque mise en prod. Une story se livre des jours apres le vote. Les stories
-estimees, avec leur estimation et leur mesure, sont donc gardees dans le
-`localStorage` de CHAQUE participant, sous `cleanpoker:history:<adresse de salle>`
-(`src/lib/history.ts`), et le premier navigateur revenu a cette adresse les
-rejoue par la commande `restore` (`backend/internal/room/history.go`).
+Every `<table>` lives in a `<div class="table-wrap">`. Never fix an overflow by
+breaking a no-break space. Title `clamp()` floors are not checked: test long titles
+in a browser.
 
-- **Rien sur le disque du serveur.** La promesse « le contenu des sessions vit
-  en memoire » ne bouge pas ; ne pas ajouter de persistance cote Go.
-- **Le serveur decide de ce qu il reprend** : une story deja dans la liste
-  reste telle quelle, une carte hors du deck est refusee, une mesure invalide
-  tombe seule, et plus rien ne se rejoue une fois la liste videe dans cette
-  salle (`cleared` dans l etat, qui vide aussi la copie des navigateurs).
-- **`history.ts` ne s importe jamais statiquement.** `useRoom` le charge
-  seulement quand la salle porte une liste ou que le navigateur garde deja un
-  historique pour cette adresse : une premiere visite ne le telecharge pas.
-  Mesure du 2026-11-22 : la salle pese 49,84 Ko sur 50 avec le seul branchement.
-- Les mentions legales disent ce stockage dans les cinq langues ; le changer
-  sans les mettre a jour est une promesse fausse.
+## Invariants
 
-## La carte plein ecran se charge au premier vote, en un seul fichier
-
-`src/lib/ShowCard.svelte` montre la carte choisie en grand, pour une equipe en
-presentiel : dos tant que la salle n a pas revele, face ensuite, un toucher la
-retourne a la main. Elle sert aussi sans salle, depuis l accueil (`#cards`, le
-raccourci du manifeste), ou rien n est cree ni envoye.
-
-Mesure avec `npm run size` le 2026-11-26, base 44,33 / 44,59 / 49,85 Ko,
-arrivee 44,86 / 45,13 / 49,96 Ko. Trois choix tiennent la salle sous 50 Ko :
-
-- **ses mots vivent dans `src/lib/show-card.ts`**, pas dans les dictionnaires de
-  la salle, et le bouton est rendu par le composant lui-meme : la salle ne porte
-  que l import a la demande ;
-- **l accueil ne partage aucun module avec elle** : il lit `src/lib/pocket-deck.ts`
-  (le nom du jeu de poche et son fragment). Un module commun devient un fichier
-  de plus dans la liste que la salle embarque pour cet import ;
-- **pas de `<svelte:window>`** sur l accueil : il coute 0,12 Ko de runtime a
-  toutes les pages, salle comprise (50,11 Ko mesures). Un `addEventListener` nu.
-
-Un `<dialog>` ne peut pas passer en plein ecran lui-meme (la norme le refuse) :
-c est son contenu, `.stage`, qui le demande. L ecran reste allume par
-`keepScreenOn`, qui redemande le verrou a chaque retour de l onglet.
-
-L appli s installe par le seul manifeste. **Aucun service worker** : un cache
-hors ligne servirait une vieille salle, et `show-card.test.ts` le refuse.
+- **Security headers live in two files**: `frontend/_headers` (static files) and
+  `frontend/src/hooks.server.ts` (worker responses). Keep them identical;
+  `npm run mesure` checks it. `_headers` sits at the project root, not in
+  `static/`.
+- **`/[id]` catches every unknown root URL** (rooms live there) and stays
+  `noindex`.
+- **Rooms live in memory only**: erased 24 h after last activity and on each
+  deploy. No server-side persistence. A team's estimated stories are kept in each
+  participant's `localStorage` (`src/lib/history.ts`) and replayed by the `restore`
+  command (`backend/internal/room/history.go`); the server decides what it accepts.
+  `history.ts` is never imported statically. The legal notices describe this
+  storage in all five languages: update them with it.
+- **Fibonacci pages** (`/fr/suite-de-fibonacci/[n]`, `/fibonacci-numbers/[n]`, ranks
+  1 to 100) have no `load`, no param matcher and `csr = false`; unknown ranks get a
+  404 from `hooks.server.ts`. Links to them carry `data-sveltekit-reload`.
+  Regenerate with `node scripts/gen-fibonacci-sitemap.mjs` and
+  `node scripts/gen-fibonacci-facteurs.mjs`.
+- **The RACI generator** (`/fr/matrice-raci`, `/raci-matrix`) shares no module with
+  the room. The matrix lives in the URL fragment (`#m=`); `decodeMatrix` rejects
+  anything that is not exactly a valid matrix and repairs nothing.
+- **The full-screen card** (`src/lib/ShowCard.svelte`) loads on first vote, in one
+  file; its words live in `src/lib/show-card.ts`, the home reads
+  `src/lib/pocket-deck.ts`, and the home uses no `<svelte:window>`.
+- **No service worker**: an offline cache would serve a stale room.
+  `show-card.test.ts` refuses one.

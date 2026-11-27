@@ -31,7 +31,7 @@ A change in behaviour comes with a test that fails without it. When a check turn
 
 ## Rules the checks enforce
 
-These come from real regressions. [AGENTS.md](AGENTS.md) has the full reasoning, in French.
+These come from real regressions. [AGENTS.md](AGENTS.md) has the full list.
 
 - **No third-party scripts, trackers or advertising cookies.** The JavaScript budget is 50 kB brotli for a first visit, on the home and in a room: `npm run size` follows the build manifest from the entry files to the page and counts what the browser fetches before the page works.
 - **Security headers live in two files**, `frontend/_headers` and `frontend/src/hooks.server.ts`, and must stay identical.
