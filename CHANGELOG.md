@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.78] - 2026-11-27
+
+- docs(fr): add article on complexity points versus person-days (#484)
+
 ## [0.0.77] - 2026-11-27
 
 - docs: rewrite agent rules in English, technical rules only (#481)
