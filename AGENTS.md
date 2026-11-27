@@ -38,6 +38,9 @@ red, fix the cause; never loosen the check or the budget.
   and for a room the heaviest of the five dictionaries. What loads on click
   (options, story list, local AI) is not counted. If a room goes over, slim the
   room.
+- **Routes resolve on the server** (`router.resolution: 'server'` in `vite.config.ts`):
+  the route manifest is not shipped, so a new page costs a first visit nothing.
+  `src/lib/routage-serveur.test.ts` holds it.
 - **Lighthouse Performance and Accessibility: 100/100.**
 - **WCAG 2.1 AA.**
 - No third-party script, no advertising cookie, no account.
