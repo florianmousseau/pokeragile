@@ -145,6 +145,11 @@ describe('the full-screen card', () => {
     expect(markup.indexOf('class="bar"')).toBeGreaterThan(markup.indexOf('show-card-deck'));
     expect(source).toMatch(/\.deck \{\s*flex: 0 1 auto;/);
   });
+
+  it('keeps the bottom of the screen free, where Android lays its full-screen hint', () => {
+    const source = readFileSync('src/lib/ShowCard.svelte', 'utf8');
+    expect(source).toContain('padding: 12px 12px 15dvh;');
+  });
 });
 
 describe('where the card is fetched', () => {
