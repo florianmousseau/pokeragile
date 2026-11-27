@@ -70,13 +70,6 @@
 <dialog bind:this={dialog} onclose={closed} aria-label={name ?? W.show} data-testid="show-card">
   <div class="stage" bind:this={stage}>
     {#if open}
-      <!-- On top: Android lays its full-screen hint over the bottom of the screen. -->
-      <div class="bar">
-        {#if deck && card}
-          <button type="button" class="btn btn-secondary btn-sm" onclick={() => (picked = '')} data-testid="show-card-change">{W.change}</button>
-        {/if}
-        <button type="button" class="btn btn-secondary btn-sm" onclick={() => dialog?.close()} data-testid="show-card-close">{W.close}</button>
-      </div>
       {#if card}
         <button type="button" class="big" class:back={!face} onclick={() => (flipped = !flipped)}
           aria-label={W.flip} data-testid="show-card-face">
@@ -93,6 +86,12 @@
           {/each}
         </ul>
       {/if}
+      <div class="bar">
+        {#if deck && card}
+          <button type="button" class="btn btn-secondary btn-sm" onclick={() => (picked = '')} data-testid="show-card-change">{W.change}</button>
+        {/if}
+        <button type="button" class="btn btn-secondary btn-sm" onclick={() => dialog?.close()} data-testid="show-card-close">{W.close}</button>
+      </div>
     {/if}
   </div>
 </dialog>
@@ -122,7 +121,7 @@
   }
   .label { font-weight: 800; line-height: 1; overflow-wrap: anywhere; text-align: center; }
   .deck {
-    flex: 1; min-height: 0; overflow-y: auto; list-style: none; margin: 0; padding: 0;
+    flex: 0 1 auto; min-height: 0; overflow-y: auto; list-style: none; margin: 0; padding: 0;
     display: grid; grid-template-columns: repeat(auto-fill, minmax(min(5rem, 28%), 1fr)); gap: 10px; align-content: start;
   }
   .pick {
