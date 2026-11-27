@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.82] - 2026-11-27
+
+- fix(show-card): keep the buttons clear of the full-screen hint under a big card (#499)
+
 ## [0.0.81] - 2026-11-27
 
 - fix(show-card): put the close button right under the pocket deck (#494)
