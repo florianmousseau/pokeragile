@@ -1,4 +1,7 @@
-# Référencement de CleanPoker
+# Référencement de PokerAgile
+
+PokerAgile s'appelait CleanPoker (`cleanpoker.dev`) jusqu'au 19 novembre 2026.
+Les relevés datés ci-dessous portent sur l'ancien domaine.
 
 Objectif suivi : être trouvé par les équipes agiles francophones qui cherchent
 un outil de **poker planning**, et par les équipes anglophones qui cherchent
@@ -72,16 +75,16 @@ nom, et publier sous son identité lui appartient.
 
 Le sitemap n'a pas été relu depuis le 21 juin. Après la mise en production :
 
-- Search Console, section **Sitemaps**, renvoyer `https://cleanpoker.dev/sitemap.xml`.
-- Section **Inspection de l'URL**, demander l'indexation de `https://cleanpoker.dev/fr/planning-poker`
-  et de `https://cleanpoker.dev/fr/comparatif-outils`. Deux URL suffisent à
+- Search Console, section **Sitemaps**, renvoyer `https://pokeragile.com/sitemap.xml`.
+- Section **Inspection de l'URL**, demander l'indexation de `https://pokeragile.com/fr/planning-poker`
+  et de `https://pokeragile.com/fr/comparatif-outils`. Deux URL suffisent à
   déclencher un passage, il est inutile de les soumettre toutes.
 
 ### 2. Les annuaires, par ordre de rendement
 
 Textes prêts à coller, à ajuster s'il préfère sa propre voix.
 
-**AlternativeTo** (`alternativeto.net`) - s'inscrire, puis proposer CleanPoker
+**AlternativeTo** (`alternativeto.net`) - s'inscrire, puis proposer PokerAgile
 comme alternative à Planning Poker Online, PlanITpoker et Kollabe. Champ
 description, 300 caractères environ :
 
@@ -93,7 +96,7 @@ description, 300 caractères environ :
 **European Alternatives** (`european-alternatives.eu`) - formulaire de
 proposition. L'argument décisif y est l'hébergement, à mettre en avant :
 
-> CleanPoker is a free planning poker tool for agile teams, hosted in
+> PokerAgile is a free planning poker tool for agile teams, hosted in
 > Gravelines, France. No account, no advertising cookie, no ad network and no third-party
 > script at all. Session content never leaves the European Union: it is held in
 > memory on the French server and deleted 24 hours after the last activity.
@@ -103,15 +106,15 @@ proposition. L'argument décisif y est l'hébergement, à mettre en avant :
 **Listes GitHub `awesome-*`** - ouvrir une pull request sur `awesome-scrum`,
 `awesome-agile` et `awesome-selfhosted`. Une ligne, au format de la liste :
 
-> - [CleanPoker](https://cleanpoker.dev) - Planning poker with no account, no
+> - [PokerAgile](https://pokeragile.com) - Planning poker with no account, no
 >   tracker and no paid tier. Sessions are ephemeral, WCAG 2.1 AA, MIT licence.
->   ([Source Code](https://github.com/florianmousseau/cleanpoker)) `MIT` `Go/JS`
+>   ([Source Code](https://github.com/florianmousseau/pokeragile)) `MIT` `Go/JS`
 
 **Sujets du dépôt GitHub** - les dépôts remontent bien dans les résultats, et
 les sujets pilotent la découverte interne à GitHub. Une commande :
 
 ```bash
-gh repo edit florianmousseau/cleanpoker --add-topic planning-poker --add-topic poker-planning --add-topic scrum --add-topic agile --add-topic estimation --add-topic story-points --add-topic sveltekit --add-topic privacy-friendly --add-topic accessibility --add-topic wcag
+gh repo edit florianmousseau/pokeragile --add-topic planning-poker --add-topic poker-planning --add-topic scrum --add-topic agile --add-topic estimation --add-topic story-points --add-topic sveltekit --add-topic privacy-friendly --add-topic accessibility --add-topic wcag
 ```
 
 ### 3. Là où le public se plaint déjà
