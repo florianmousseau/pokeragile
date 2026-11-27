@@ -260,6 +260,10 @@
       <a href="/fr/planning-poker-ia">faire voter une IA</a>,
       <a href="/fr/story-points">les story points</a>,
       <a href="/fr/points-de-complexite">points de complexité ou jours-homme</a>,
+      <a href="/fr/user-story">les user stories</a>,
+      <a href="/fr/velocite">la vélocité</a>,
+      <a href="/fr/sprint-planning">le sprint planning</a>,
+      <a href="/fr/definition-of-done">la Definition of Done</a>,
       <a href="/fr/poker-planning-rgpd">poker planning et RGPD</a>,
       <a href="/fr/fibonacci">la suite de Fibonacci en détail</a>,
       <a href="/fr/alternatives">les alternatives à la technique</a>.
