@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest a change to how CleanPoker works.
+description: Suggest a change to how PokerAgile works.
 labels: [enhancement]
 body:
   - type: textarea
@@ -20,4 +20,4 @@ body:
     id: constraints
     attributes:
       label: Constraints
-      description: CleanPoker has no accounts, no third-party scripts, a 50 kB JS budget, and keeps rooms in memory only. Say if the proposal would change any of that.
+      description: PokerAgile has no accounts, no third-party scripts, a 50 kB JS budget, and keeps rooms in memory only. Say if the proposal would change any of that.
