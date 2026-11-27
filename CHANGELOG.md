@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.0.80] - 2026-11-27
+
+- docs(fr): add user story, velocity, definition of done and sprint planning articles
+- perf: resolve routes on the server so pages stop growing the first visit
+
 ## [0.0.79] - 2026-11-27
 
 - docs: retake the README screenshot from pokeragile.com, drop leftover CleanPoker names (#488)
