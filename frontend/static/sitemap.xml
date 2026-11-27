@@ -2302,4 +2302,9 @@
   </url>
   <!-- fibonacci:end -->
 
+  <url>
+    <loc>https://pokeragile.com/fr/points-de-complexite</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

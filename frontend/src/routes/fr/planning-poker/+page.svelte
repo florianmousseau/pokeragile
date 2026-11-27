@@ -194,6 +194,7 @@
         <strong>Convertir les points en jours.</strong> «&nbsp;Un point égale une demi-journée&nbsp;»
         annule le bénéfice de l'échelle relative et transforme l'estimation en engagement de
         délai. Les points servent à comparer des stories entre elles, pas à remplir un planning.
+        <a href="/fr/points-de-complexite">Pourquoi des points et pas des jours-homme</a>.
       </li>
       <li>
         <strong>Chercher le consensus à tout prix.</strong> Un désaccord persistant est une
@@ -216,7 +217,8 @@
         volume de travail, l'incertitude et la complexité pris ensemble. L'échelle est
         relative - un 5 est nettement plus gros qu'un 2, sans prétendre à un rapport exact.
         Cette abstraction permet de comparer des tâches sans se bloquer sur les durées
-        individuelles, qui varient selon la personne et le contexte.
+        individuelles, qui varient selon la personne et le contexte. Exemple chiffré&nbsp;:
+        <a href="/fr/points-de-complexite">points de complexité ou jours-homme</a>.
       </p>
     </details>
 
@@ -257,6 +259,7 @@
       <a href="/fr/comparatif-outils">comment choisir un outil de poker planning</a>,
       <a href="/fr/planning-poker-ia">faire voter une IA</a>,
       <a href="/fr/story-points">les story points</a>,
+      <a href="/fr/points-de-complexite">points de complexité ou jours-homme</a>,
       <a href="/fr/poker-planning-rgpd">poker planning et RGPD</a>,
       <a href="/fr/fibonacci">la suite de Fibonacci en détail</a>,
       <a href="/fr/alternatives">les alternatives à la technique</a>.
