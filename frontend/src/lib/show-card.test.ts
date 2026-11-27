@@ -114,6 +114,12 @@ describe('the words of the card', () => {
 describe('the pocket deck', () => {
   const manifest = JSON.parse(readFileSync('static/manifest.webmanifest', 'utf8'));
 
+  it('opens from a discreet link in the footer, not from the form', () => {
+    const home = readFileSync('src/lib/HomepageTemplate.svelte', 'utf8');
+    expect(home.indexOf('data-testid="pocket-btn"')).toBeGreaterThan(home.indexOf('</form>'));
+    expect(home).toContain('lead={homeLinks}');
+  });
+
   it('opens from the shortcut the installed app offers', () => {
     expect(manifest.shortcuts.map((s: { url: string }) => s.url)).toEqual([`/${POCKET_HASH}`]);
   });
@@ -133,12 +139,11 @@ describe('the pocket deck', () => {
 });
 
 describe('the full-screen card', () => {
-  it('keeps its buttons above the card, clear of the hint Android lays at the bottom', () => {
+  it('keeps its buttons right under the deck, clear of the hint Android lays at the bottom', () => {
     const source = readFileSync('src/lib/ShowCard.svelte', 'utf8');
     const markup = source.slice(source.indexOf('<dialog'));
-    expect(markup.indexOf('class="bar"')).toBeGreaterThan(-1);
-    expect(markup.indexOf('class="bar"')).toBeLessThan(markup.indexOf('show-card-deck'));
-    expect(markup.indexOf('class="bar"')).toBeLessThan(markup.indexOf('show-card-face'));
+    expect(markup.indexOf('class="bar"')).toBeGreaterThan(markup.indexOf('show-card-deck'));
+    expect(source).toMatch(/\.deck \{\s*flex: 0 1 auto;/);
   });
 });
 
