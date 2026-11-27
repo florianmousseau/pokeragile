@@ -1,5 +1,5 @@
 name: Bug report
-description: Something on cleanpoker.dev or in the code does not work as expected.
+description: Something on pokeragile.com or in the code does not work as expected.
 labels: [bug]
 body:
   - type: textarea
@@ -8,7 +8,7 @@ body:
       label: Steps to reproduce
       description: Start from a URL. Say how many people were in the room if it matters.
       placeholder: |
-        1. Open https://cleanpoker.dev and create a room with the Fibonacci deck
+        1. Open https://pokeragile.com and create a room with the Fibonacci deck
         2. Join from a second browser
         3. ...
     validations:
